@@ -387,6 +387,10 @@ package com.ish.wimp.view {
 				p = getHexPos( hexObj as int );
 				doDrawIncident( p.x, p.y, hexObj as int );
 			}
+			for( hexObj in AllyTurnModel.combatMap ) {
+				p = getHexPos( hexObj as int );
+				doDrawIncident( p.x, p.y, hexObj as int );
+			}
 		}
 		
 		private function doDrawIncident( x : int, y : int, hex : int ) : void {
