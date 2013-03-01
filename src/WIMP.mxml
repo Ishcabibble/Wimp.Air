@@ -61,9 +61,7 @@
 		<fx:XML format="e4x" id="menuData"> 
 			<root> 
 				<menuitem label="File"> 
-					<menuitem label="Load world press"/>
-					<menuitem label="Load player turn"/>
-					<menuitem label="Load ally turn"/>
+					<menuitem label="Load files"/>
 					<menuitem label="Save turn input"/>
 				</menuitem> 
 				<menuitem label="View"> 
@@ -82,13 +80,15 @@
 		<![CDATA[
 			import com.ish.wimp.files.WimpWriter;
 			import com.ish.wimp.model.input.PlayerTurnModel;
-			import com.ish.wimp.parsers.AllyTurnParser;
+			import com.ish.wimp.mxml.popup.LoadFilesPopup;
 			import com.ish.wimp.parsers.MapParser;
-			import com.ish.wimp.parsers.PlayerTurnParser;
 			import com.ish.wimp.parsers.UnitParser;
-			import com.ish.wimp.parsers.WorldPressParser;
+			import com.ish.wimp.view.Map;
 			
+			import mx.events.CloseEvent;
 			import mx.events.FlexNativeMenuEvent;
+			import mx.managers.CursorManager;
+			import mx.managers.PopUpManager;
 			
 			private function init() : void {
 				UnitParser.getInstance();
@@ -103,9 +103,7 @@
 				else if( event.keyCode == Keyboard.F2 ) currentState="Actions";
 				else if( event.keyCode == Keyboard.F3 ) currentState="Economics";
 				else if( event.keyCode == Keyboard.F4 ) currentState="WorldPress";
-				else if( event.ctrlKey && event.keyCode == Keyboard.W ) loadWorldPress();
-				else if( event.ctrlKey && event.keyCode == Keyboard.P ) loadPlayerTurn();
-				else if( event.ctrlKey && event.keyCode == Keyboard.A ) loadAllyTurn();
+				else if( event.ctrlKey && event.keyCode == Keyboard.O ) loadFiles();
 				else if( event.ctrlKey && event.keyCode == Keyboard.S ) saveTurnInput();
 			}
 			
@@ -114,27 +112,31 @@
 				else if( event.label == "Actions" ) currentState = "Actions";
 				else if( event.label == "Economics" ) currentState = "Economics";
 				else if( event.label == "World Press" ) currentState = "WorldPress";
-				else if( event.label == "Load world press" ) loadWorldPress();
-				else if( event.label == "Load player turn" ) loadPlayerTurn();
-				else if( event.label == "Load ally turn" ) loadAllyTurn();
+				else if( event.label == "Load files" ) loadFiles();
 				else if( event.label == "Save turn input" ) saveTurnInput();
 				else if( event.label == "Superpower" ) PlayerTurnModel.superpower = !PlayerTurnModel.superpower;
 			}
 			
-			private function loadWorldPress() : void {
-				new WorldPressParser().loadWorldPress();
-			}
-			
-			private function loadPlayerTurn() : void {
-				new PlayerTurnParser().loadPlayerTurn();
-			}
-			
-			private function loadAllyTurn() : void {
-				new AllyTurnParser().loadPlayerTurn();
+			private function loadFiles() : void {
+				var popup : LoadFilesPopup = new LoadFilesPopup( );
+				popup.addEventListener( CloseEvent.CLOSE, finishLoadingFiles );
+				PopUpManager.addPopUp( popup, com.ish.wimp.mxml.Map.publicGroup );
+				PopUpManager.centerPopUp( popup );
 			}
 			
 			private function saveTurnInput() : void {
 				WimpWriter.writeWimpFile();
+			}
+			
+			private function finishLoadingFiles( evt : CloseEvent ) : void {
+				PopUpManager.removePopUp( LoadFilesPopup( evt.target ) );
+				com.ish.wimp.mxml.Map.publicGroup.removeAllElements();
+				var newMap : com.ish.wimp.view.Map = new com.ish.wimp.view.Map();
+				newMap.setGroup( com.ish.wimp.mxml.Map.publicGroup );
+				newMap.id = "map";
+				newMap.width = 3795;
+				newMap.height = 1900;
+				com.ish.wimp.mxml.Map.publicGroup.addElement( newMap );
 			}
 		]]>
 	</fx:Script>
