@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:mxml="com.ish.wimp.mxml.*"
+					   width="800" height="600"
+					   applicationComplete="init();">
+	
+	<fx:Style> 
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace containers "com.iwobanas.containers.*";
+		@namespace flashdan "net.flashdan.containers.customtitlewindow.*";
+		@namespace iwobanas "com.iwobanas.*";
+		
+		s|WindowedApplication { 
+			skinClass:ClassReference("spark.skins.spark.SparkChromeWindowedApplicationSkin"); 
+			background-color:#999999; 
+			background-alpha:"0.7";
+		}
+		
+		iwobanas|CollapsiblePanel {
+			skin-class:ClassReference('com.iwobanas.CollapsiblePanelSkin');
+		}
+		
+		flashdan|CustomTitleWindow {
+			skin-class: ClassReference("net.flashdan.containers.customtitlewindow.skins.CustomTitleWindowSkin");
+			resizeCursorHorizontalSkin: Embed(source="/net/flashdan/containers/customtitlewindow/assets/resizeCursorH.gif");
+			resizeCursorHorizontalXOffset: -10;	
+			resizeCursorHorizontalYOffset: -10;	
+			resizeCursorVerticalSkin: Embed(source="/net/flashdan/containers/customtitlewindow/assets/resizeCursorV.gif");
+			resizeCursorVerticalXOffset: -10;
+			resizeCursorVerticalYOffset: -10;
+			resizeCursorTopLeftBottomRightSkin: Embed(source="/net/flashdan/containers/customtitlewindow/assets/resizeCursorTLBR.gif");
+			resizeCursorTopLeftBottomRightXOffset: -10;
+			resizeCursorTopLeftBottomRightYOffset: -10;
+			resizeCursorTopRightBottomLeftSkin: Embed(source="/net/flashdan/containers/customtitlewindow/assets/resizeCursorTRBL.gif");
+			resizeCursorTopRightBottomLeftXOffset: -10;
+			resizeCursorTopRightBottomLeftYOffset: -10;
+			cornerHandleSize: 10;
+			edgeHandleSize: 4;
+		}
+	</fx:Style>
+	
+	<s:states>
+		<s:State name="Map" />
+		<s:State name="Actions" />
+		<s:State name="Economics" />
+		<s:State name="WorldPress" />
+	</s:states>
+	
+	<mxml:Map id="map" includeIn="Map" width="100%" height="100%"/>
+	<mxml:Actions includeIn="Actions" width="100%" height="100%"/>
+	<mxml:Economics id="economics" includeIn="Economics" width="100%" height="100%"/>
+	<mxml:WorldPress includeIn="WorldPress" width="100%" height="100%"/>
+	
+	<s:menu>
+		<mx:FlexNativeMenu dataProvider="{menuData}" labelField="@label" showRoot="false" itemClick="menuMouseClickHandler(event)"/>
+	</s:menu>
+	
+	<fx:Declarations>
+		<fx:XML format="e4x" id="menuData"> 
+			<root> 
+				<menuitem label="File"> 
+					<menuitem label="Load world press"/>
+					<menuitem label="Load player turn"/>
+					<menuitem label="Load ally turn"/>
+					<menuitem label="Save turn input"/>
+				</menuitem> 
+				<menuitem label="View"> 
+					<menuitem label="Map"/> 
+					<menuitem label="Actions"/>
+					<menuitem label="Economics"/>
+					<menuitem label="World Press"/>
+					<menuitem type="separator"/>
+					<menuitem label="Superpower" type="check"/>
+				</menuitem> 
+			</root> 
+		</fx:XML>   
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.files.WimpWriter;
+			import com.ish.wimp.model.input.PlayerTurnModel;
+			import com.ish.wimp.parsers.AllyTurnParser;
+			import com.ish.wimp.parsers.MapParser;
+			import com.ish.wimp.parsers.PlayerTurnParser;
+			import com.ish.wimp.parsers.UnitParser;
+			import com.ish.wimp.parsers.WorldPressParser;
+			
+			import mx.events.FlexNativeMenuEvent;
+			
+			private function init() : void {
+				UnitParser.getInstance();
+				MapParser.getInstance();
+				
+				currentState="Map";
+				stage.addEventListener( KeyboardEvent.KEY_UP, keyPressHandler );
+			}
+			
+			private function keyPressHandler( event : KeyboardEvent ) : void {
+				if( event.keyCode == Keyboard.F1 ) currentState="Map";
+				else if( event.keyCode == Keyboard.F2 ) currentState="Actions";
+				else if( event.keyCode == Keyboard.F3 ) currentState="Economics";
+				else if( event.keyCode == Keyboard.F4 ) currentState="WorldPress";
+				else if( event.ctrlKey && event.keyCode == Keyboard.W ) loadWorldPress();
+				else if( event.ctrlKey && event.keyCode == Keyboard.P ) loadPlayerTurn();
+				else if( event.ctrlKey && event.keyCode == Keyboard.A ) loadAllyTurn();
+				else if( event.ctrlKey && event.keyCode == Keyboard.S ) saveTurnInput();
+			}
+			
+			private function menuMouseClickHandler( event : FlexNativeMenuEvent ) : void {
+				if( event.label == "Map" ) currentState = "Map";
+				else if( event.label == "Actions" ) currentState = "Actions";
+				else if( event.label == "Economics" ) currentState = "Economics";
+				else if( event.label == "World Press" ) currentState = "WorldPress";
+				else if( event.label == "Load world press" ) loadWorldPress();
+				else if( event.label == "Load player turn" ) loadPlayerTurn();
+				else if( event.label == "Load ally turn" ) loadAllyTurn();
+				else if( event.label == "Save turn input" ) saveTurnInput();
+				else if( event.label == "Superpower" ) PlayerTurnModel.superpower = !PlayerTurnModel.superpower;
+			}
+			
+			private function loadWorldPress() : void {
+				new WorldPressParser().loadWorldPress();
+			}
+			
+			private function loadPlayerTurn() : void {
+				new PlayerTurnParser().loadPlayerTurn();
+			}
+			
+			private function loadAllyTurn() : void {
+				new AllyTurnParser().loadPlayerTurn();
+			}
+			
+			private function saveTurnInput() : void {
+				WimpWriter.writeWimpFile();
+			}
+		]]>
+	</fx:Script>
+</s:WindowedApplication>

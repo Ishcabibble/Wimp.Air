@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<customtitlewindow:CustomTitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+									 xmlns:s="library://ns.adobe.com/flex/spark"
+									 xmlns:mx="library://ns.adobe.com/flex/mx"
+									 xmlns:customtitlewindow="net.flashdan.containers.customtitlewindow.*"
+									 initialize="init();">
+	
+	<s:Scroller left="1" right="1" top="1" bottom="1" width="100%" height="100%" skinClass="com.Shongrunden.CustomScrollerSkin">
+		<s:Group id="elementGroup">
+			<s:layout>
+				<s:VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" gap="20" />
+			</s:layout>
+		</s:Group>
+	</s:Scroller>
+		 
+	 <fx:Script>
+		 <![CDATA[
+			 import com.Shongrunden.CustomScrollerSkin;
+			 import com.ish.wimp.model.input.AllyTurnModel;
+			 import com.ish.wimp.model.input.CombatReport;
+			 import com.ish.wimp.model.input.PlayerTurnModel;
+			 import com.ish.wimp.model.input.WorldPressModel;
+			 
+			 import mx.collections.ArrayList;
+			 
+			 import spark.components.Label;
+			 
+			 [Bindable] public var hex : int;
+
+			 private function init() : void {
+				 title = hex + " - Incidents";
+				 
+				 var i : int, j : int;
+				 var combatList : ArrayList;
+				 var combat : CombatReport;
+				 var combatEntry : PopupEntry;
+				 var combatPart : Label;
+				 if( PlayerTurnModel.combatMap != null && PlayerTurnModel.combatMap[hex] != null ) {
+					 combatList = PlayerTurnModel.combatMap[hex];
+					for( i = 0; i < combatList.length; ++i ) {
+						combat = combatList.source[i];
+						combatEntry = new PopupEntry();
+						combatEntry.header.text = combat.getCombatType();
+						for( j = 0; j < combat.getCombatElementList().length; ++j ) {
+							combatPart = new Label();
+							combatPart.text = combat.getCombatElementList().source[j];
+							combatEntry.addElement( combatPart );
+						}
+						elementGroup.addElement( combatEntry );
+					}
+					
+				 } else if( AllyTurnModel.combatMap != null && AllyTurnModel.combatMap[hex] != null ) {
+					 combatList = AllyTurnModel.combatMap[hex];
+					 for( i = 0; i < combatList.length; ++i ) {
+						 combat = combatList.source[i];
+						 combatEntry = new PopupEntry();
+						 combatEntry.header.text = combat.getCombatType();
+						 for( j = 0; j < combat.getCombatElementList().length; ++j ) {
+							 combatPart = new Label();
+							 combatPart.text = combat.getCombatElementList().source[j];
+							 combatEntry.addElement( combatPart );
+						 }
+						 elementGroup.addElement( combatEntry );
+					 }
+					
+				 } else if( WorldPressModel.nuclearDetonations != null && WorldPressModel.nuclearDetonations[hex] != null ) {
+					var nukeEntry : PopupEntry = new PopupEntry();
+					nukeEntry.header.text = "Nuclear Detonations";
+					
+					var nukeList : ArrayList = WorldPressModel.nuclearDetonations[hex];
+					for( i = 0; i < nukeList.length; ++i ) {
+						var nukeLabel : Label = new Label();
+						nukeLabel.text = "   " + nukeList.source[i];
+						nukeEntry.addElement( nukeLabel );
+					}
+					elementGroup.addElement( nukeEntry );
+				 }
+			 }
+		 ]]>
+	 </fx:Script>
+</customtitlewindow:CustomTitleWindow>
