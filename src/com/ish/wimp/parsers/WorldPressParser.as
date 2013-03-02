@@ -1,8 +1,6 @@
 package com.ish.wimp.parsers {
 	import com.ish.wimp.model.input.WorldMarketResourceLine;
 	import com.ish.wimp.model.input.WorldPressModel;
-	import com.ish.wimp.mxml.Map;
-	import com.ish.wimp.view.Map;
 	
 	import flash.events.Event;
 	import flash.net.FileReference;
