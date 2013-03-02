@@ -4,18 +4,17 @@ package com.ish.wimp.files {
 	import com.ish.wimp.model.input.PlayerTurnModel;
 	import com.ish.wimp.model.output.OutputModel;
 	
-	import flash.events.PressAndTapGestureEvent;
+	import flash.events.Event;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	
 	import mx.controls.Alert;
-	
-	import spark.primitives.Line;
 
 	public class WimpWriter {
 		
 		private static var fileStream : FileStream = new FileStream();
+		private static var file : File = new File();
 		
 		public static function writeWimpFile( ) : void {
 			if( PlayerTurnModel.playerName == null ) {
@@ -23,7 +22,12 @@ package com.ish.wimp.files {
 				return;
 			}
 			
-			createFile();
+			file.addEventListener( Event.SELECT, onFileSelected );
+			file.browseForSave( "Save file as" );
+		}
+		
+		public static function onFileSelected( e : Event ) : void {
+			fileStream.open( File( e.target ), FileMode.WRITE );
 			writeMisc();
 			writeMarket();
 			writeTrade();
@@ -39,12 +43,6 @@ package com.ish.wimp.files {
 			writeActions();
 			writePress();
 			closeFile();
-		}
-		
-		private static function createFile() : void {
-			var file : File = File.documentsDirectory;
-			file = file.resolvePath( "newFile.txt" );
-			fileStream.open( file, FileMode.WRITE );
 		}
 		
 		private static function writeMisc() : void {
