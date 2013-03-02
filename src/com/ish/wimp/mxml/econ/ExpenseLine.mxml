@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:states>
+		<s:State name="lineItem" />
+		<s:State name="sectionTotal" />
+		<s:State name="header" />
+	</s:states>
+	
+	<s:layout>
+		<s:HorizontalLayout />
+	</s:layout>
+	
+	<s:Label text.lineItem="{expenseLineModel.FoodString}" text="{forceZeros(expenseLineModel.Food)}" width="{Constants.EXPENSE_HEADER_RESOURCE_WIDTH}" textAlign="center" fontSize="12" fontWeight="bold" fontWeight.lineItem="normal" />
+	<s:Label text.lineItem="{expenseLineModel.MineralsString}" text="{forceZeros(expenseLineModel.Minerals)}" width="{Constants.EXPENSE_HEADER_RESOURCE_WIDTH}" textAlign="center" fontSize="12" fontWeight="bold" fontWeight.lineItem="normal" />
+	<s:Label text.lineItem="{expenseLineModel.IronString}" text="{forceZeros(expenseLineModel.Iron)}" width="{Constants.EXPENSE_HEADER_RESOURCE_WIDTH}" textAlign="center" fontSize="12" fontWeight="bold" fontWeight.lineItem="normal" />
+	<s:Label text.lineItem="{expenseLineModel.OilString}" text="{forceZeros(expenseLineModel.Oil)}" width="{Constants.EXPENSE_HEADER_RESOURCE_WIDTH}" textAlign="center" fontSize="12" fontWeight="bold" fontWeight.lineItem="normal" />
+	<s:Label text.lineItem="{expenseLineModel.PMetalsString}" text="{forceZeros(expenseLineModel.PMetals)}" width="{Constants.EXPENSE_HEADER_RESOURCE_WIDTH}" textAlign="center" fontSize="12" fontWeight="bold" fontWeight.lineItem="normal" />
+	<s:Label text.lineItem="{expenseLineModel.UraniumString}" text="{forceZeros(expenseLineModel.Uranium)}" width="{Constants.EXPENSE_HEADER_RESOURCE_WIDTH}" textAlign="center" fontSize="12" fontWeight="bold" fontWeight.lineItem="normal" />
+	<s:Label text.lineItem="{expenseLineModel.EcsString}" text="{forceZeros(expenseLineModel.Ecs)}" width="{Constants.EXPENSE_HEADER_EC_WIDTH}" textAlign="center" fontSize="12" fontWeight="bold" fontWeight.lineItem="normal" />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseLineModel;
+			
+			[Bindable] public var expenseLineModel : ExpenseLineModel;
+			
+			private function forceZeros( value : int ) : String {
+				return value == 0 || isNaN(value) ? "0" : value.toString();
+			}
+		]]>
+	</fx:Script>
+</s:Group>

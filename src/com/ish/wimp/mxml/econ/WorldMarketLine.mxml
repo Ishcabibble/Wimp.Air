@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:Group>
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="baseline" />
+		</s:layout>
+		<s:Label id="resourceLabel" width="{Constants.WORLD_MARKET_LABEL_WIDTH}" text="{resource}" />
+		<s:DropDownList id="buySellBox" change="changeHandler();">
+			<s:dataProvider>
+				<mx:ArrayList>
+					<fx:String>Buy</fx:String>
+					<fx:String>Sell</fx:String>
+				</mx:ArrayList>
+			</s:dataProvider>
+		</s:DropDownList>
+		<s:TextInput id="qtyInput" prompt="qty" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	</s:Group>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+			import com.ish.wimp.model.input.WorldPressModel;
+			import com.ish.wimp.model.output.OutputModel;
+			import com.ish.wimp.view.NotLoadedWarning;
+			
+			[Bindable] public var resource : String;
+			
+			private function changeHandler() : void {
+				if( WorldPressModel.worldMarketFood == null ) {
+					NotLoadedWarning.worldPressNotLoaded();
+					return;
+				}
+				
+				var qty : int = parseInt( qtyInput.text );
+				var buySellIndex : int = buySellBox.selectedIndex;
+				if( isNaN(qty) || buySellIndex < 0 ) return adjustResource( 0 );
+				
+				if( buySellIndex == 0 ) adjustResource( qty, true );
+				else adjustResource( qty, false );
+			}
+			
+			private function adjustResource( qty : int, buy : Boolean = true ) : void {
+				switch( resourceLabel.text ) {
+					case "Food":
+						ExpenseModel.WorldMarketFood.Food = buy ? qty : -qty;
+						ExpenseModel.WorldMarketFood.Ecs = buy ?
+								-qty * WorldPressModel.worldMarketFood.getCurBuy() :
+								qty * WorldPressModel.worldMarketFood.getCurSell();
+						OutputModel.worldMarketFoodBuy = buy ? "Buy" : "Sell";
+						OutputModel.worldMarketFoodQty = qty;
+						break;
+					case "Minerals":
+						ExpenseModel.WorldMarketMinerals.Minerals = buy ? qty : -qty;
+						ExpenseModel.WorldMarketMinerals.Ecs = buy ?
+						-qty * WorldPressModel.worldMarketMinerals.getCurBuy() :
+						qty * WorldPressModel.worldMarketMinerals.getCurSell();
+						OutputModel.worldMarketMineralsBuy = buy ? "Buy" : "Sell";
+						OutputModel.worldMarketMineralsQty = qty;
+						break;
+					case "Iron":
+						ExpenseModel.WorldMarketIron.Iron = buy ? qty : -qty;
+						ExpenseModel.WorldMarketIron.Ecs = buy ?
+						-qty * WorldPressModel.worldMarketIron.getCurBuy() :
+						qty * WorldPressModel.worldMarketIron.getCurSell();
+						OutputModel.worldMarketIronBuy = buy ? "Buy" : "Sell";
+						OutputModel.worldMarketIronQty = qty;
+						break;
+					case "Oil":
+						ExpenseModel.WorldMarketOil.Oil = buy ? qty : -qty;
+						ExpenseModel.WorldMarketOil.Ecs = buy ?
+						-qty * WorldPressModel.worldMarketOil.getCurBuy() :
+						qty * WorldPressModel.worldMarketOil.getCurSell();
+						OutputModel.worldMarketOilBuy = buy ? "Buy" : "Sell";
+						OutputModel.worldMarketOilQty = qty;
+						break;
+					case "Precious Metals":
+						ExpenseModel.WorldMarketPMetals.PMetals = buy ? qty : -qty;
+						ExpenseModel.WorldMarketPMetals.Ecs = buy ?
+						-qty * WorldPressModel.worldMarketPMetals.getCurBuy() :
+						qty * WorldPressModel.worldMarketPMetals.getCurSell();
+						OutputModel.worldMarketPMetalsBuy = buy ? "Buy" : "Sell";
+						OutputModel.worldMarketPMetalsQty = qty;
+						break;
+					case "Uranium":
+						ExpenseModel.WorldMarketUranium.Uranium = buy ? qty : -qty;
+						ExpenseModel.WorldMarketUranium.Ecs = buy ?
+						-qty * WorldPressModel.worldMarketUranium.getCurBuy() :
+						qty * WorldPressModel.worldMarketUranium.getCurSell();
+						OutputModel.worldMarketUraniumBuy = buy ? "Buy" : "Sell";
+						OutputModel.worldMarketUraniumQty = qty;
+						break;
+				}
+				ExpenseModel.WorldMarket = ExpenseModel.WorldMarket;
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

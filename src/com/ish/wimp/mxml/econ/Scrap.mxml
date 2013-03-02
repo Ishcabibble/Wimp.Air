@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:econ="com.ish.wimp.mxml.econ.*"
+		 xmlns:iwobanas="com.iwobanas.*">
+	
+	<iwobanas:CollapsiblePanel title="Scrap" width="{Constants.EXPENSE_PANEL_WIDTH}" height="100%" expenseLineModel="{ExpenseModel.ScrapTotal}" >
+		<econ:ScrapLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Scrap1}" lineNumber="1" />
+		<econ:ScrapLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Scrap2}" lineNumber="2" />
+		<s:Spacer y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" />
+	</iwobanas:CollapsiblePanel>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+		]]>
+	</fx:Script>
+</s:Group>

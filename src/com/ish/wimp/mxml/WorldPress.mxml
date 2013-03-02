@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 stateChangeComplete="stateChangeHandler(event);">
+	
+	<s:states>
+		<s:State name="init" />
+		<s:State name="one" />
+		<s:State name="two" />
+		<s:State name="three" />
+	</s:states>
+	
+	<s:Scroller id="scroller" left="1" right="1" top="1" bottom="1">
+		<s:Group id="group">
+			<s:layout>
+				<s:VerticalLayout paddingLeft="10" paddingTop="10" gap="20"/>
+			</s:layout>
+			
+			<s:DropDownList id="numPressBox" width="225" prompt="Enter number of press releases" change="dropDownChangeHandler(event);"> 
+				<s:dataProvider>
+					<mx:ArrayList>
+						<fx:String>None</fx:String>
+						<fx:String>1   (735 chars)</fx:String>
+						<fx:String>2   (490 and 245 chars)</fx:String>
+						<fx:String>3   (245 chars each)</fx:String>
+					</mx:ArrayList>
+				</s:dataProvider>
+			</s:DropDownList>
+			
+			<s:Group id="press1" includeIn="one,two,three">
+				<s:layout>
+					<s:VerticalLayout />
+				</s:layout>
+				
+				<mx:Canvas>
+					<s:Label id="pressLabel1" text="Characters remaining: {charsRemaining1}" y="5" />
+					<s:CheckBox id="pressCheck1" label="Anonymous" x="315" click="checkClickHandler(event);" />
+				</mx:Canvas>
+				<s:TextArea id="pressText1" width="400" height="150" maxChars="{maxChars1}" change="textAreaChangeHandler(event);" />
+			</s:Group>
+			
+			<s:Group id="press2" includeIn="two,three">
+				<s:layout>
+					<s:VerticalLayout />
+				</s:layout>
+				
+				<mx:Canvas>
+					<s:Label id="pressLabel2" text="Characters remaining: {charsRemaining2}" y="5" />
+					<s:CheckBox id="pressCheck2" label="Anonymous" x="315" click="checkClickHandler(event);" />
+				</mx:Canvas>
+				<s:TextArea id="pressText2"  width="400" height="150" maxChars="{maxChars2}" change="textAreaChangeHandler(event);" />
+			</s:Group>
+			
+			<s:Group id="press3" includeIn="three">
+				<s:layout>
+					<s:VerticalLayout />
+				</s:layout>
+				
+				<mx:Canvas>
+					<s:Label id="pressLabel3" text="Characters remaining: {charsRemaining3}" y="5" />
+					<s:CheckBox id="pressCheck3" label="Anonymous" x="315" click="checkClickHandler(event);" />
+				</mx:Canvas>
+				<s:TextArea id="pressText3"  width="400" height="150" maxChars="{maxChars3}" change="textAreaChangeHandler(event);" />
+			</s:Group>
+		</s:Group>
+	</s:Scroller>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.output.OutputModel;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.TextOperationEvent;
+			
+			[Bindable] private var charsRemaining1 : int = 245;
+			[Bindable] private var charsRemaining2 : int = 245;
+			[Bindable] private var charsRemaining3 : int = 245;
+			
+			[Bindable] private var maxChars1 : int = 245;
+			[Bindable] private var maxChars2 : int = 245;
+			[Bindable] private var maxChars3 : int = 245;
+			
+			private function dropDownChangeHandler( event : spark.events.IndexChangeEvent ) : void {
+				if( event.newIndex == 0 ) {
+					currentState = "init";
+					OutputModel.pressNumber = 0;
+				} else if( event.newIndex == 1 ) {
+					currentState = "one";
+					OutputModel.pressNumber = 1;
+				} else if( event.newIndex == 2 ) {
+					currentState = "two";
+					OutputModel.pressNumber = 2;
+				} else {
+					currentState = "three";
+					OutputModel.pressNumber = 3;
+				}
+			}
+			
+			private function stateChangeHandler( event : FlexEvent ) : void {
+				switch( currentState ) {
+					case "one":
+						maxChars1 = 735;
+						break;
+					case "two":
+						maxChars1 = 490;
+						maxChars2 = 245;
+						break;
+					case "three":
+						maxChars1 = 245;
+						maxChars2 = 245;
+						maxChars3 = 245;
+						break;
+				}
+				if( pressText1 != null ) charsRemaining1 = maxChars1 - pressText1.text.length;
+				if( pressText2 != null ) charsRemaining2 = maxChars2 - pressText2.text.length;
+				if( pressText3 != null ) charsRemaining3 = maxChars3 - pressText3.text.length;
+			}
+			
+			private function textAreaChangeHandler( event : TextOperationEvent ) : void {
+				var textArea : TextArea = event.currentTarget as TextArea;
+				switch( textArea.id ) {
+					case "pressText1":
+						charsRemaining1 = maxChars1 - textArea.text.length;
+						OutputModel.pressText0 = textArea.text;
+						break;
+					case "pressText2":
+						charsRemaining2 = maxChars2 - textArea.text.length;
+						OutputModel.pressText1 = textArea.text;
+						break;
+					case "pressText3":
+						charsRemaining3 = maxChars3 - textArea.text.length;
+						OutputModel.pressText2 = textArea.text;
+						break;
+				}
+			}
+			
+			private function checkClickHandler( event : MouseEvent ) : void {
+				var checkBox : CheckBox = event.currentTarget as CheckBox;
+				switch( checkBox.id ) {
+					case "pressCheck1":
+						OutputModel.pressAnon0 = checkBox.selected;
+						break;
+					case "pressCheck2":
+						OutputModel.pressAnon1 = checkBox.selected;
+						break;
+					case "pressCheck3":
+						OutputModel.pressAnon2 = checkBox.selected;
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+</s:Group>

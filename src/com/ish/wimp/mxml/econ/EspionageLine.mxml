@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:states>
+		<s:State name="blank" />
+		<s:State name="country" />
+		<s:State name="hex" />
+		<s:State name="SR" />
+		<s:State name="ST" />
+	</s:states>
+	
+	<s:Group>
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="baseline" />
+		</s:layout>
+		<s:Label text="Spend" />
+		<s:TextInput id="ecInput" prompt="ecs" width="{Constants.EC_INPUT_WIDTH}" change="changeHandler();" />
+		<s:Label text="for" />
+		<s:DropDownList id="missionBox" width="{Constants.ESPIONAGE_BOX_WIDTH}" dataProvider="{Constants.ESPIONAGE_LIST}" change="missionHandler();" />
+		<s:DropDownList id="countryBox" includeIn="country,SR,ST" width="{Constants.COUNTRY_BOX_WIDTH}" dataProvider="{Constants.COUNTRY_LIST}" change="changeHandler();" />
+		<s:TextInput id="hexInput" includeIn="hex" prompt="hex" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:DropDownList id="resourceBox" includeIn="SR" width="{Constants.RESOURCE_BOX_WIDTH}" dataProvider="{Constants.RESOURCE_LIST}" change="changeHandler();" />
+		<s:DropDownList id="techTypeBox" includeIn="ST" width="{Constants.TECH_TYPE_BOX_WIDTH}" dataProvider="{Constants.TECH_TYPE_LIST}" change="changeHandler();" />
+	</s:Group>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+			import com.ish.wimp.model.output.OutputModel;
+			
+			[Bindable] public var lineNumber : int;
+			
+			private function missionHandler() : void {
+				switch( missionBox.selectedIndex ) {
+					case 4: currentState = "blank"; break;
+					case 0:
+					case 1:
+					case 2:
+					case 3:
+					case 5: currentState = "country"; break
+					case 6:
+					case 7:
+					case 8:
+					case 9:
+					case 10: currentState = "hex"; break;
+					case 11: currentState = "SR"; break;
+					case 12: currentState = "ST"; break;
+				}
+				changeHandler();
+			}
+			
+			private function changeHandler() : void {
+				var ecs : int = parseInt( ecInput.text );
+				if( isNaN(ecs) ) return adjustResource( 0 );
+				
+				adjustResource( -ecs );
+			}
+			
+			private function adjustResource( ecs : int ) : void {
+				switch( lineNumber ) {
+					case 1: ExpenseModel.Espionage1 = ecs; break;
+					case 2: ExpenseModel.Espionage2 = ecs; break;
+					case 3: ExpenseModel.Espionage3 = ecs; break;
+				}
+				updateOutputModel( );
+				ExpenseModel.EspionageTotal = ExpenseModel.EspionageTotal;
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+			
+			private function updateOutputModel( ) : void {
+				switch( lineNumber ) {
+					case 1:
+						if( missionBox.selectedIndex > -1 )
+							OutputModel.espMission1 = (Constants.ESPIONAGE_LIST.getItemAt( missionBox.selectedIndex ) as String).substr( 0, 2 );
+						switch( missionBox.selectedIndex ) {
+							case 4:
+								OutputModel.espCountry1 = 0;
+								OutputModel.espHex1 = "";
+								OutputModel.espExtra1 = "";
+								break;
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+							case 5:
+								OutputModel.espCountry1 = countryBox.selectedIndex + 1;
+								OutputModel.espHex1 = "";
+								OutputModel.espExtra1 = "";
+								break
+							case 6:
+							case 7:
+							case 8:
+							case 9:
+							case 10:
+								OutputModel.espCountry1 = 0;
+								OutputModel.espHex1 = hexInput.text;
+								OutputModel.espExtra1 = "";
+								break;
+							case 11:
+								OutputModel.espCountry1 = countryBox.selectedIndex + 1;
+								OutputModel.espHex1 = "";
+								if( resourceBox.selectedIndex > -1 )
+									OutputModel.espExtra1 = Constants.RESOURCE_LIST.getItemAt( resourceBox.selectedIndex ) as String;
+								break;
+							case 12:
+								OutputModel.espCountry1 = countryBox.selectedIndex + 1;
+								OutputModel.espHex1 = "";
+								if( techTypeBox.selectedIndex > -1 )
+									OutputModel.espExtra1 = Constants.TECH_TYPE_LIST.getItemAt( techTypeBox.selectedIndex ) as String;
+								break;
+						}
+						break;
+						
+					case 2:
+						if( missionBox.selectedIndex > -1 )
+							OutputModel.espMission2 = (Constants.ESPIONAGE_LIST.getItemAt( missionBox.selectedIndex ) as String).substr( 0, 2 );
+						switch( missionBox.selectedIndex ) {
+							case 4:
+								OutputModel.espCountry2 = 0;
+								OutputModel.espHex2 = "";
+								OutputModel.espExtra2 = "";
+								break;
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+							case 5:
+								OutputModel.espCountry2 = countryBox.selectedIndex + 1;
+								OutputModel.espHex2 = "";
+								OutputModel.espExtra2 = "";
+								break
+							case 6:
+							case 7:
+							case 8:
+							case 9:
+							case 10:
+								OutputModel.espCountry2 = 0;
+								OutputModel.espHex2 = hexInput.text;
+								OutputModel.espExtra2 = "";
+								break;
+							case 11:
+								OutputModel.espCountry2 = countryBox.selectedIndex + 1;
+								OutputModel.espHex2 = "";
+								if( resourceBox.selectedIndex > -1 )
+									OutputModel.espExtra2 = Constants.RESOURCE_LIST.getItemAt( resourceBox.selectedIndex ) as String;
+								break;
+							case 12:
+								OutputModel.espCountry2 = countryBox.selectedIndex + 1;
+								OutputModel.espHex2 = "";
+								if( techTypeBox.selectedIndex > -1 )
+									OutputModel.espExtra2 = Constants.TECH_TYPE_LIST.getItemAt( techTypeBox.selectedIndex ) as String;
+								break;
+						}
+						break;
+						
+					case 3:
+						if( missionBox.selectedIndex > -1 )
+							OutputModel.espMission3 = (Constants.ESPIONAGE_LIST.getItemAt( missionBox.selectedIndex ) as String).substr( 0, 2 );
+						switch( missionBox.selectedIndex ) {
+							case 4:
+								OutputModel.espCountry3 = 0;
+								OutputModel.espHex3 = "";
+								OutputModel.espExtra3 = "";
+								break;
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+							case 5:
+								OutputModel.espCountry3 = countryBox.selectedIndex + 1;
+								OutputModel.espHex3 = "";
+								OutputModel.espExtra3 = "";
+								break
+							case 6:
+							case 7:
+							case 8:
+							case 9:
+							case 10:
+								OutputModel.espCountry3 = 0;
+								OutputModel.espHex3 = hexInput.text;
+								OutputModel.espExtra3 = "";
+								break;
+							case 11:
+								OutputModel.espCountry3 = countryBox.selectedIndex + 1;
+								OutputModel.espHex3 = "";
+								if( resourceBox.selectedIndex > -1 )
+									OutputModel.espExtra3 = Constants.RESOURCE_LIST.getItemAt( resourceBox.selectedIndex ) as String;
+								break;
+							case 12:
+								OutputModel.espCountry3 = countryBox.selectedIndex + 1;
+								OutputModel.espHex3 = "";
+								if( techTypeBox.selectedIndex > -1 )
+									OutputModel.espExtra3 = Constants.TECH_TYPE_LIST.getItemAt( techTypeBox.selectedIndex ) as String;
+								break;
+						}
+				}
+			}
+		]]>
+	</fx:Script>
+</s:Group>

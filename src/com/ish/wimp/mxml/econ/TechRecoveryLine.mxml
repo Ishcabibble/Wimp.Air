@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:Group>
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="baseline" />
+		</s:layout>
+		<s:Label id="techTypeLabel" width="{Constants.TECH_TYPE_LABEL_WIDTH}" text="{techType}" />
+		<s:TextInput id="ecInput" prompt="ecs" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:Label id="effectLabel" text="{automatic + ' levels guaranteed and ' + probability + '% chance for an additional level'}" />
+	</s:Group>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+			
+			[Bindable] public var techType : String;
+			[Bindable] private var automatic : int;
+			[Bindable] private var probability : int;
+			
+			private function changeHandler() : void {
+				var ecs : int = parseInt( ecInput.text );
+				if( isNaN(ecs) ) return adjustResource( 0 );
+				
+				var levels : Number = Math.sqrt( ecs );
+				var chop : int = levels;
+				automatic = levels;
+				probability = (levels - chop) * 100;
+				adjustResource( -ecs );
+			}
+			
+			private function adjustResource( ecs : int ) : void {
+				switch( techTypeLabel.text ) {
+					case "Inf": ExpenseModel.InfTech = ecs; break;
+					case "Veh": ExpenseModel.VehTech = ecs; break;
+					case "Aer": ExpenseModel.AerTech = ecs; break;
+					case "Nav": ExpenseModel.NavTech = ecs; break;
+					case "Nuc": ExpenseModel.NucTech = ecs; break;
+				}
+				ExpenseModel.TechRecovery = ExpenseModel.TechRecovery;
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

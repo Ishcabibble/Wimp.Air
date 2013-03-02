@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+
+	<s:Group>
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="baseline" />
+		</s:layout>
+		<s:Label text="Give" />
+		<s:TextInput id="ecInput" prompt="ecs" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:Label text="to" />
+		<s:DropDownList id="countryBox" width="{Constants.COUNTRY_BOX_WIDTH}" dataProvider="{Constants.COUNTRY_LIST}" change="changeHandler();" />
+	</s:Group>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+			import com.ish.wimp.model.output.OutputModel;
+			
+			[Bindable] public var lineNumber : int;
+			
+			private function changeHandler() : void {
+				var ecs : int = parseInt( ecInput.text );
+				if( isNaN(ecs) ) return adjustResource( 0 );
+				adjustResource( ecs );
+			}
+			
+			private function adjustResource( ecs : int ) : void {
+				switch( lineNumber ) {
+					case 1:
+						ExpenseModel.ForeignAid1 = -ecs;
+						OutputModel.foreignAidCountry1 = countryBox.selectedIndex + 1;
+						break;
+					case 2:
+						ExpenseModel.ForeignAid2 = -ecs;
+						OutputModel.foreignAidCountry2 = countryBox.selectedIndex + 1;
+						break;
+				}
+				ExpenseModel.PrivateTradeTotal = ExpenseModel.PrivateTradeTotal;
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

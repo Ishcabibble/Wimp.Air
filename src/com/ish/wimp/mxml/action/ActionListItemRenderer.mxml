@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="baseline" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" />
+	</s:layout>
+	
+	<s:TextInput id="qtyInput" prompt="qty" text="{data.Qty}" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="unitInput" prompt="unit" text="{data.Unit}" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="sourceInput" prompt="source" text="{data.Source}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:ComboBox id="missionInput" prompt="mission" selectedItem="{data.Mission}" dataProvider="{Constants.MISSION_LIST}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	
+	<s:TextInput id="hex0" prompt="hex" text="{data.Hex0}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex1" prompt="hex" text="{data.Hex1}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex2" prompt="hex" text="{data.Hex2}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex3" prompt="hex" text="{data.Hex3}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex4" prompt="hex" text="{data.Hex4}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex5" prompt="hex" text="{data.Hex5}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex6" prompt="hex" text="{data.Hex6}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex7" prompt="hex" text="{data.Hex7}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex8" prompt="hex" text="{data.Hex8}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	<s:TextInput id="hex9" prompt="hex" text="{data.Hex9}" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.output.OutputModel;
+			
+			public function changeHandler() : void {
+				updateModel();
+				OutputModel.actionArray[data.SectionNumber*12 + data.LineNumber] = data;
+			}
+			
+			private function updateModel() : void {
+				data.Qty = qtyInput.text;
+				data.Unit = unitInput.text;
+				data.Source = sourceInput.text;
+				data.Mission = missionInput.selectedItem == null ? "" : missionInput.selectedItem as String;
+				
+				data.Hex0 = hex0.text;
+				data.Hex1 = hex1.text;
+				data.Hex2 = hex2.text;
+				data.Hex3 = hex3.text;
+				data.Hex4 = hex4.text;
+				data.Hex5 = hex5.text;
+				data.Hex6 = hex6.text;
+				data.Hex7 = hex7.text;
+				data.Hex8 = hex8.text;
+				data.Hex9 = hex9.text;
+			}
+		]]>
+	</fx:Script>
+	
+</s:ItemRenderer>

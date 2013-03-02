@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:econ="com.ish.wimp.mxml.econ.*"
+		 xmlns:iwobanas="com.iwobanas.*">
+		 
+	
+	<iwobanas:CollapsiblePanel title="World Market" width="{Constants.EXPENSE_PANEL_WIDTH}" height="100%" expenseLineModel="{ExpenseModel.WorldMarket}" >
+		<econ:WorldMarketLine id="foodLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" resource="Food"/>
+		<econ:WorldMarketLine id="mineralsLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" resource="Minerals"/>
+		<econ:WorldMarketLine id="ironLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" resource="Iron"/>
+		<econ:WorldMarketLine id="oilLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+3*Constants.PROD_LINE_HEIGHT}" resource="Oil"/>
+		<econ:WorldMarketLine id="pMetalsLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+4*Constants.PROD_LINE_HEIGHT}" resource="Precious Metals"/>
+		<econ:WorldMarketLine id="uraniumLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+5*Constants.PROD_LINE_HEIGHT}" resource="Uranium"/>
+		<s:Spacer y="{Constants.PROD_TOP_PAD+6*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" />
+	</iwobanas:CollapsiblePanel>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+		]]>
+	</fx:Script>
+</s:Group>

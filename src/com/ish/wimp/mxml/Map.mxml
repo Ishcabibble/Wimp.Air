@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="com.ish.wimp.view.*"
+		 initialize="init()">
+	
+	<s:Scroller id="scroller" left="1" right="1" top="1" bottom="1" skinClass="com.Shongrunden.CustomScrollerSkin">
+		<s:Group id="group" mouseDown="groupMouseDownHandler(event);" mouseMove="groupMouseMoveHandler(event);" mouseUp="groupMouseUpHandler(event);">
+			<view:Map id="map" width="3795" height="1900" />
+		</s:Group>
+	</s:Scroller>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.managers.SystemManager;
+			
+			// this is all really really bad....oh well....
+			public static var publicGroup : Group;
+			public static var isDraggingPopup : Boolean;
+			public static var publicSytemManager : SystemManager;
+			
+			private function init() : void {
+				map.setGroup( group );
+				publicGroup = group;
+				isDraggingPopup = false;
+				publicSytemManager = systemManager as SystemManager;
+			}
+			
+			private var startX : int;
+			private var startY : int;
+			private var newX : int;
+			private var newY : int;
+			private var xChange : int;
+			private var yChange : int;
+			
+			private function groupMouseDownHandler( event : MouseEvent ) : void {
+				startX = event.stageX;
+				startY = event.stageY;
+			}
+			
+			private function groupMouseMoveHandler( event : MouseEvent ) : void {
+				if( event.buttonDown && !isDraggingPopup ) {
+					newX = event.stageX;
+					newY = event.stageY;
+					xChange = newX - startX;
+					yChange = newY - startY;
+					scroller.horizontalScrollBar.value -= xChange;
+					scroller.verticalScrollBar.value -= yChange;
+					startX = newX;
+					startY = newY;
+				}
+			}
+			
+			private function groupMouseUpHandler( event : MouseEvent ) : void {
+				isDraggingPopup = false;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

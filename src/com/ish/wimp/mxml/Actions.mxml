@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:action="com.ish.wimp.mxml.action.*">
+	
+	<s:Scroller left="1" right="1" top="1" bottom="1" width="100%" height="100%" skinClass="com.Shongrunden.CustomScrollerSkin">
+		<s:Group>
+			<s:layout>
+				<s:VerticalLayout paddingLeft="10" paddingTop="10" paddingBottom="10" />
+			</s:layout>
+			
+			<s:Group>
+				<s:layout>
+					<s:VerticalLayout />
+				</s:layout>
+				<action:TacNukeLine />
+				<action:DropHexLine />
+				<action:AllianceLine lineNumber="1" />
+				<action:AllianceLine visible="{PlayerTurnModel.superpower}" includeInLayout="{PlayerTurnModel.superpower}" lineNumber="2" />
+				
+			</s:Group>
+			<s:Group>
+				<s:layout>
+					<s:VerticalLayout gap="0" />
+				</s:layout>
+				<action:ActionList sectionNumber="0" />
+				<action:ActionList visible="{PlayerTurnModel.superpower}" includeInLayout="{PlayerTurnModel.superpower}" sectionNumber="1" />
+			</s:Group>
+		</s:Group>
+	</s:Scroller>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.Shongrunden.CustomScrollerSkin;
+			import com.ish.wimp.model.input.PlayerTurnModel;
+		]]>
+	</fx:Script>
+</s:Group>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:econ="com.ish.wimp.mxml.econ.*">
+	
+	<s:Group>
+		<s:layout>
+			<s:HorizontalLayout />
+		</s:layout>
+		<s:TextInput id="qtyInput" prompt="qty" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:TextInput id="unitInput" prompt="unit" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:TextInput id="hexInput" prompt="hex" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:CheckBox id="recoveryCheck" label="recoverable?" change="changeHandler();" />
+	</s:Group>
+	
+	<econ:ExpenseLine x="{Constants.EXPENSE_LINE_X-Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD}" expenseLineModel="{ExpenseLine}" currentState="lineItem" />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseLineModel;
+			import com.ish.wimp.model.ExpenseModel;
+			import com.ish.wimp.model.output.OutputModel;
+			import com.ish.wimp.model.unit.UnitInfo;
+			import com.ish.wimp.parsers.UnitParser;
+			
+			public var lineNumber : int;
+			
+			private var expenseLine : ExpenseLineModel;
+			[Bindable] public function get ExpenseLine() : ExpenseLineModel { return expenseLine; }
+			public function set ExpenseLine( value : ExpenseLineModel ) : void { expenseLine = value; }
+			
+			private function changeHandler() : void {
+				var qty : int = parseInt( qtyInput.text );
+				var unitCode : String = unitInput.text;
+				if( isNaN(qty) || unitCode == null || unitCode == "" || !recoveryCheck.selected ) return clearLine();
+				
+				var unitInfo : UnitInfo = UnitParser.getInstance().getUnits()[unitCode] as UnitInfo;
+				if( unitInfo == null ) return clearLine();
+				
+				var food : int = unitInfo.getCost().getFood() / 2;
+				var minerals : int = unitInfo.getCost().getMinerals() / 2;
+				var iron : int = unitInfo.getCost().getIron() / 2;
+				var oil : int = unitInfo.getCost().getOil() / 2;
+				var pMetals : int = unitInfo.getCost().getPMetals() / 2;
+				var uranium : int = unitInfo.getCost().getUranium() / 2;
+				var ecs : int = unitInfo.getCost().getEcs() / 2;
+				
+				sendNewExpenseToModel( new ExpenseLineModel( qty * food, qty * minerals, qty * iron,
+					qty * oil, qty * pMetals, qty * uranium, qty * ecs ) );
+			}
+			
+			private function clearLine() : void {
+				sendNewExpenseToModel( new ExpenseLineModel( 0, 0, 0, 0, 0, 0, 0 ) );
+				
+			}
+			
+			private function sendNewExpenseToModel( line : ExpenseLineModel ) : void {
+				switch( lineNumber ) {
+					case 1:
+						ExpenseModel.Scrap1.Food = line.Food;
+						ExpenseModel.Scrap1.Minerals = line.Minerals;
+						ExpenseModel.Scrap1.Iron = line.Iron;
+						ExpenseModel.Scrap1.Oil = line.Oil;
+						ExpenseModel.Scrap1.PMetals = line.PMetals;
+						ExpenseModel.Scrap1.Uranium = line.Uranium;
+						ExpenseModel.Scrap1.Ecs = line.Ecs;
+						OutputModel.scrapQty1 = parseInt( qtyInput.text );
+						OutputModel.scrapUnit1 = unitInput.text;
+						OutputModel.scrapHex1 = hexInput.text;
+						break;
+					case 2:
+						ExpenseModel.Scrap2.Food = line.Food;
+						ExpenseModel.Scrap2.Minerals = line.Minerals;
+						ExpenseModel.Scrap2.Iron = line.Iron;
+						ExpenseModel.Scrap2.Oil = line.Oil;
+						ExpenseModel.Scrap2.PMetals = line.PMetals;
+						ExpenseModel.Scrap2.Uranium = line.Uranium;
+						ExpenseModel.Scrap2.Ecs = line.Ecs;
+						OutputModel.scrapQty2 = parseInt( qtyInput.text );
+						OutputModel.scrapUnit2 = unitInput.text;
+						OutputModel.scrapHex2 = hexInput.text;
+						break;
+				}
+				ExpenseModel.ScrapTotal = ExpenseModel.ScrapTotal;
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

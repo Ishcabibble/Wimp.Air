@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:econ="com.ish.wimp.mxml.econ.*"
+		 width="100%" height="100%"
+		 creationComplete="init()">
+	
+	<s:layout>
+		<s:VerticalLayout paddingLeft="10" paddingTop="10" paddingBottom="10" gap="20" />
+	</s:layout>
+	
+	<econ:StartingBalance id="startingBalance" width="100%" />
+	<s:Scroller left="1" right="1" top="1" bottom="1" width="100%" height="100%" skinClass="com.Shongrunden.CustomScrollerSkin">
+		<s:Group>
+			<s:layout>
+				<s:VerticalLayout />
+			</s:layout>
+			
+			<econ:Scrap id="scrap" width="100%" />
+			<econ:Production id="production" width="100%" />
+			<econ:WorldMarket id="worldMarket" width="100%" />
+			<econ:PrivateTrade id="privateTrade" width="100%" />
+			<econ:TechRecovery id="techRecovery" width="100%" />
+			<econ:Espionage id="espionage" width="100%" />
+		</s:Group>
+	</s:Scroller>
+	<econ:EndingBalance id="finalBalance" width="100%" />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.Shongrunden.CustomScrollerSkin;
+			import com.ish.wimp.model.ExpenseModel;
+			
+			private function init() : void {
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

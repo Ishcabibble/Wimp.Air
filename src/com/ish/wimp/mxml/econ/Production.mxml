@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:econ="com.ish.wimp.mxml.econ.*"
+		 xmlns:iwobanas="com.iwobanas.*">
+	
+	<iwobanas:CollapsiblePanel title="Production" width="{Constants.EXPENSE_PANEL_WIDTH}" height="100%" expenseLineModel="{ExpenseModel.ProductionTotal}" >
+		<econ:ProductionLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Production1}" lineNumber="1" />
+		<econ:ProductionLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Production2}" lineNumber="2" />
+		<econ:ProductionLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Production3}" lineNumber="3" />
+		<econ:ProductionLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+3*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Production4}" lineNumber="4" />
+		<econ:ProductionLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+4*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Production5}" lineNumber="5" />
+		<s:Spacer y="{Constants.PROD_TOP_PAD+5*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" />
+	</iwobanas:CollapsiblePanel>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+		]]>
+	</fx:Script>
+</s:Group>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:econ="com.ish.wimp.mxml.econ.*">
+	
+	<s:Group>
+		<s:layout>
+			<s:HorizontalLayout />
+		</s:layout>
+		<s:TextInput id="qtyInput" prompt="qty" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:TextInput id="unitInput" prompt="unit" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:TextInput id="sourceHex" prompt="source" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:TextInput id="destHex" prompt="placement" width="{Constants.ACTION_LINE_INPUT_WIDTH}" change="changeHandler();" />
+	</s:Group>
+	
+	<econ:ExpenseLine x="{Constants.EXPENSE_LINE_X-Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD}" expenseLineModel="{ExpenseLine}" currentState="lineItem" />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseLineModel;
+			import com.ish.wimp.model.ExpenseModel;
+			import com.ish.wimp.model.output.OutputModel;
+			import com.ish.wimp.model.unit.UnitInfo;
+			import com.ish.wimp.parsers.UnitParser;
+			
+			public var lineNumber : int;
+			
+			private var expenseLine : ExpenseLineModel;
+			[Bindable] public function get ExpenseLine() : ExpenseLineModel { return expenseLine; }
+			public function set ExpenseLine( value : ExpenseLineModel ) : void { expenseLine = value; }
+			
+			private function changeHandler() : void {
+				var qty : int = parseInt( qtyInput.text );
+				var unitCode : String = unitInput.text;
+				if( isNaN(qty) || unitCode == null || unitCode == "" ) return clearLine();
+				
+				var unitInfo : UnitInfo = UnitParser.getInstance().getUnits()[unitCode] as UnitInfo;
+				if( unitInfo == null ) return clearLine();
+				
+				sendNewExpenseToModel( new ExpenseLineModel(
+					-qty * unitInfo.getCost().getFood(),
+					-qty * unitInfo.getCost().getMinerals(),
+					-qty * unitInfo.getCost().getIron(),
+					-qty * unitInfo.getCost().getOil(),
+					-qty * unitInfo.getCost().getPMetals(),
+					-qty * unitInfo.getCost().getUranium(),
+					-qty * unitInfo.getCost().getEcs()
+				) );
+			}
+			
+			private function clearLine() : void {
+				sendNewExpenseToModel( new ExpenseLineModel( 0, 0, 0, 0, 0, 0, 0 ) );
+			}
+			
+			private function sendNewExpenseToModel( line : ExpenseLineModel ) : void {
+				switch( lineNumber ) {
+					case 1:
+						ExpenseModel.Production1.Food = line.Food;
+						ExpenseModel.Production1.Minerals = line.Minerals;
+						ExpenseModel.Production1.Iron = line.Iron;
+						ExpenseModel.Production1.Oil = line.Oil;
+						ExpenseModel.Production1.PMetals = line.PMetals;
+						ExpenseModel.Production1.Uranium = line.Uranium;
+						ExpenseModel.Production1.Ecs = line.Ecs;
+						OutputModel.prodQty1 = parseInt( qtyInput.text );
+						OutputModel.prodUnit1 = unitInput.text;
+						OutputModel.prodSourceHex1 = sourceHex.text;
+						OutputModel.prodDestHex1 = destHex.text;
+						break;
+					case 2:
+						ExpenseModel.Production2.Food = line.Food;
+						ExpenseModel.Production2.Minerals = line.Minerals;
+						ExpenseModel.Production2.Iron = line.Iron;
+						ExpenseModel.Production2.Oil = line.Oil;
+						ExpenseModel.Production2.PMetals = line.PMetals;
+						ExpenseModel.Production2.Uranium = line.Uranium;
+						ExpenseModel.Production2.Ecs = line.Ecs;
+						OutputModel.prodQty2 = parseInt( qtyInput.text );
+						OutputModel.prodUnit2 = unitInput.text;
+						OutputModel.prodSourceHex2 = sourceHex.text;
+						OutputModel.prodDestHex2 = destHex.text;
+						break;
+					case 3:
+						ExpenseModel.Production3.Food = line.Food;
+						ExpenseModel.Production3.Minerals = line.Minerals;
+						ExpenseModel.Production3.Iron = line.Iron;
+						ExpenseModel.Production3.Oil = line.Oil;
+						ExpenseModel.Production3.PMetals = line.PMetals;
+						ExpenseModel.Production3.Uranium = line.Uranium;
+						ExpenseModel.Production3.Ecs = line.Ecs;
+						OutputModel.prodQty3 = parseInt( qtyInput.text );
+						OutputModel.prodUnit3 = unitInput.text;
+						OutputModel.prodSourceHex3 = sourceHex.text;
+						OutputModel.prodDestHex3 = destHex.text;
+						break;
+					case 4:
+						ExpenseModel.Production4.Food = line.Food;
+						ExpenseModel.Production4.Minerals = line.Minerals;
+						ExpenseModel.Production4.Iron = line.Iron;
+						ExpenseModel.Production4.Oil = line.Oil;
+						ExpenseModel.Production4.PMetals = line.PMetals;
+						ExpenseModel.Production4.Uranium = line.Uranium;
+						ExpenseModel.Production4.Ecs = line.Ecs;
+						OutputModel.prodQty4 = parseInt( qtyInput.text );
+						OutputModel.prodUnit4 = unitInput.text;
+						OutputModel.prodSourceHex4 = sourceHex.text;
+						OutputModel.prodDestHex4 = destHex.text;
+						break;
+					case 5:
+						ExpenseModel.Production5.Food = line.Food;
+						ExpenseModel.Production5.Minerals = line.Minerals;
+						ExpenseModel.Production5.Iron = line.Iron;
+						ExpenseModel.Production5.Oil = line.Oil;
+						ExpenseModel.Production5.PMetals = line.PMetals;
+						ExpenseModel.Production5.Uranium = line.Uranium;
+						ExpenseModel.Production5.Ecs = line.Ecs;
+						OutputModel.prodQty5 = parseInt( qtyInput.text );
+						OutputModel.prodUnit5 = unitInput.text;
+						OutputModel.prodSourceHex5 = sourceHex.text;
+						OutputModel.prodDestHex5 = destHex.text;
+						break;
+				}
+				ExpenseModel.ProductionTotal = ExpenseModel.ProductionTotal;
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

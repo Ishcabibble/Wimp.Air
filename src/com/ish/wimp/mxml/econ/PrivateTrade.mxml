@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:econ="com.ish.wimp.mxml.econ.*"
+		 xmlns:iwobanas="com.iwobanas.*">
+	
+	<iwobanas:CollapsiblePanel title="Private Trade and Foreign Aid" width="{Constants.EXPENSE_PANEL_WIDTH}" height="100%" expenseLineModel="{ExpenseModel.PrivateTradeTotal}" >
+		<econ:PrivateTradeLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.PrivateTrade1}" lineNumber="1" />
+		<econ:PrivateTradeLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.PrivateTrade2}" lineNumber="2" />
+		<econ:PrivateTradeLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.PrivateTrade3}" lineNumber="3" />
+		<econ:ForeignAidLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+3*Constants.PROD_LINE_HEIGHT}" lineNumber="1" />
+		<econ:ForeignAidLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+4*Constants.PROD_LINE_HEIGHT}" lineNumber="2" visible="{PlayerTurnModel.superpower}" includeInLayout="{PlayerTurnModel.superpower}" />
+		<s:Spacer y="{Constants.PROD_TOP_PAD+4*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" visible="{!PlayerTurnModel.superpower}" includeInLayout="{!PlayerTurnModel.superpower}" />
+		<s:Spacer y="{Constants.PROD_TOP_PAD+5*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" visible="{PlayerTurnModel.superpower}" includeInLayout="{PlayerTurnModel.superpower}" />
+	</iwobanas:CollapsiblePanel>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseModel;
+			import com.ish.wimp.model.input.PlayerTurnModel;
+		]]>
+	</fx:Script>
+</s:Group>

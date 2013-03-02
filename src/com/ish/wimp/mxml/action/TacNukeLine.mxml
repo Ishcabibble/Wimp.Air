@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="baseline" />
+	</s:layout>
+	
+	<s:Label text="Tactical nuke authorization: " />
+	<s:DropDownList id="tacNukeBox" dataProvider="{Constants.NUKE_LIST}" selectedIndex="{selectSize(PlayerTurnModel.takNuke)}" change="tacNukeHandler();"  />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.input.PlayerTurnModel;
+			import com.ish.wimp.model.output.OutputModel;
+			
+			private function tacNukeHandler() : void {
+				switch( tacNukeBox.selectedIndex ) {
+					case 0: OutputModel.tacNuke = ""; break;
+					case 1: OutputModel.tacNuke = "1"; break;
+					case 2: OutputModel.tacNuke = "5"; break;
+					case 3: OutputModel.tacNuke = "10"; break;
+					case 4: OutputModel.tacNuke = "50"; break;
+					case 5: OutputModel.tacNuke = "100"; break;
+					case 6: OutputModel.tacNuke = "500"; break;
+				}
+			}
+			
+			private function selectSize( size : int ) : int {
+				OutputModel.tacNuke = "" + size;
+				switch( size ) {
+					case 1:		return 1;
+					case 5:		return 2;
+					case 10:	return 3;
+					case 50:	return 4;
+					case 100:	return 5;
+					case 500:	return 6;
+					default:	return 0;
+				}
+			}
+		]]>
+	</fx:Script>
+</s:Group>

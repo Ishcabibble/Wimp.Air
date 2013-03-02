@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<customtitlewindow:CustomTitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+									 xmlns:s="library://ns.adobe.com/flex/spark"
+									 xmlns:mx="library://ns.adobe.com/flex/mx"
+									 xmlns:customtitlewindow="net.flashdan.containers.customtitlewindow.*"
+									 title="Load player files; program will update on close"
+									 creationComplete="init();">
+	
+	<s:Scroller left="1" right="1" top="1" bottom="1" width="100%" height="100%" skinClass="com.Shongrunden.CustomScrollerSkin">
+		<s:Group id="elementGroup">
+			<s:layout>
+				<s:VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" />
+			</s:layout>
+			
+			<s:Button label="Load world press file" click="new WorldPressParser().loadWorldPress();"/>
+			<s:Button label="Load player turn file" click="new PlayerTurnParser().loadPlayerTurn();" />
+			<s:Button label="Load ally turn file" click="new AllyTurnParser().loadPlayerTurn();" />
+		</s:Group>
+	</s:Scroller>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.input.AllyTurnModel;
+			import com.ish.wimp.parsers.AllyTurnParser;
+			import com.ish.wimp.parsers.PlayerTurnParser;
+			import com.ish.wimp.parsers.WorldPressParser;
+			
+			private function init() : void {
+				AllyTurnModel.combatMap = null;
+				AllyTurnModel.contestedHexList = null;
+				AllyTurnModel.ownedHexList = null;
+				AllyTurnModel.positionMap = null;
+			}
+		]]>
+	</fx:Script>
+</customtitlewindow:CustomTitleWindow>

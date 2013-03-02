@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="baseline" />
+	</s:layout>
+	
+	<s:Label text="Make alliance with: " />
+	<s:DropDownList id="makeBox" width="{Constants.COUNTRY_BOX_WIDTH}" dataProvider="{Constants.COUNTRY_LIST}" change="changeHandler();" />
+	<s:Label text="Break alliance with: " />
+	<s:DropDownList id="breakBox" width="{Constants.COUNTRY_BOX_WIDTH}" dataProvider="{Constants.COUNTRY_LIST}" change="changeHandler();" />
+	<s:Button label="clear" click="clickHandler();" />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.output.OutputModel;
+			
+			public var lineNumber : int;
+			
+			private function changeHandler() : void {
+				switch( lineNumber ) {
+					case 1:
+						OutputModel.allianceMake1 = makeBox.selectedIndex + 1;
+						OutputModel.allianceBreak1 = breakBox.selectedIndex + 1;
+						break;
+					case 2:
+						OutputModel.allianceMake2 = makeBox.selectedIndex + 1;
+						OutputModel.allianceBreak2 = breakBox.selectedIndex + 1;
+						break;
+				}
+			}
+			
+			public function clickHandler() : void {
+				makeBox.selectedIndex = -1;
+				breakBox.selectedIndex = -1;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

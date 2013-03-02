@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:Group>
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="baseline" />
+		</s:layout>
+		<s:Label id="giveLabel" text="Give" />
+		<s:TextInput id="qtyInput1" prompt="qty" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:DropDownList id="resourceBox1" width="{Constants.RESOURCE_BOX_WIDTH}" dataProvider="{Constants.RESOURCE_LIST}" change="changeHandler();" />
+		<s:Label id="toLabel" text="to" />
+		<s:DropDownList id="countryBox" width="{Constants.COUNTRY_BOX_WIDTH}" dataProvider="{Constants.COUNTRY_LIST}" change="changeHandler();" />
+		<s:Label id="forLabel" text="for" />
+		<s:TextInput id="qtyInput2" prompt="qty" width="{Constants.PROD_LINE_INPUT_WIDTH}" change="changeHandler();" />
+		<s:DropDownList id="resourceBox2" width="{Constants.RESOURCE_BOX_WIDTH}" dataProvider="{Constants.RESOURCE_LIST}" change="changeHandler();" />
+	</s:Group>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.ish.wimp.model.Constants;
+			import com.ish.wimp.model.ExpenseLineModel;
+			import com.ish.wimp.model.ExpenseModel;
+			import com.ish.wimp.model.output.OutputModel;
+			
+			public var lineNumber : int;
+			
+			private var expenseLine : ExpenseLineModel;
+			[Bindable] public function get ExpenseLine() : ExpenseLineModel { return expenseLine; }
+			public function set ExpenseLine( value : ExpenseLineModel ) : void { expenseLine = value; }
+			
+			private function changeHandler() : void {
+				var qty1 : int = parseInt( qtyInput1.text );
+				var qty2 : int = parseInt( qtyInput2.text );
+				var resourceIndex1 : int = resourceBox1.selectedIndex;
+				var resourceIndex2 : int = resourceBox2.selectedIndex;
+				if( isNaN(qty1) || isNaN(qty2) || resourceIndex1 < 0 || resourceIndex2 < 0 ) return clearLine();
+				
+				var newLine : ExpenseLineModel = new ExpenseLineModel();
+				if( resourceIndex1 == resourceIndex2 ) {
+					switch( resourceIndex1 ) {
+						case 0: newLine.Food = qty2 - qty1; break;
+						case 1: newLine.Minerals = qty2 - qty1; break;
+						case 2: newLine.Iron = qty2 - qty1; break;
+						case 3: newLine.Oil = qty2 - qty1; break;
+						case 4: newLine.PMetals = qty2 - qty1; break;
+						case 5: newLine.Uranium = qty2 - qty1; break;
+					}
+				} else {
+					switch( resourceIndex1 ) {
+						case 0: newLine.Food = -qty1; break;
+						case 1: newLine.Minerals = -qty1; break;
+						case 2: newLine.Iron = -qty1; break;
+						case 3: newLine.Oil = -qty1; break;
+						case 4: newLine.PMetals = -qty1; break;
+						case 5: newLine.Uranium = -qty1; break;
+					}
+					switch( resourceIndex2 ) {
+						case 0: newLine.Food = qty2; break;
+						case 1: newLine.Minerals = qty2; break;
+						case 2: newLine.Iron = qty2; break;
+						case 3: newLine.Oil = qty2; break;
+						case 4: newLine.PMetals = qty2; break;
+						case 5: newLine.Uranium = qty2; break;
+					}
+				}
+				sendNewExpenseToModel( newLine );
+			}
+			
+			private function clearLine() : void {
+				sendNewExpenseToModel( new ExpenseLineModel( 0, 0, 0, 0, 0, 0, 0 ) );
+			}
+			
+			private function sendNewExpenseToModel( line : ExpenseLineModel ) : void {
+				switch( lineNumber ) {
+					case 1:
+						ExpenseModel.PrivateTrade1.Food = line.Food;
+						ExpenseModel.PrivateTrade1.Minerals = line.Minerals;
+						ExpenseModel.PrivateTrade1.Iron = line.Iron;
+						ExpenseModel.PrivateTrade1.Oil = line.Oil;
+						ExpenseModel.PrivateTrade1.PMetals = line.PMetals;
+						ExpenseModel.PrivateTrade1.Uranium = line.Uranium;
+						ExpenseModel.PrivateTrade1.Ecs = line.Ecs;
+						OutputModel.tradeCountry1 = countryBox.selectedIndex + 1;
+						break;
+					case 2:
+						ExpenseModel.PrivateTrade2.Food = line.Food;
+						ExpenseModel.PrivateTrade2.Minerals = line.Minerals;
+						ExpenseModel.PrivateTrade2.Iron = line.Iron;
+						ExpenseModel.PrivateTrade2.Oil = line.Oil;
+						ExpenseModel.PrivateTrade2.PMetals = line.PMetals;
+						ExpenseModel.PrivateTrade2.Uranium = line.Uranium;
+						ExpenseModel.PrivateTrade2.Ecs = line.Ecs;
+						OutputModel.tradeCountry2 = countryBox.selectedIndex + 1;
+						break;
+					case 3:
+						ExpenseModel.PrivateTrade3.Food = line.Food;
+						ExpenseModel.PrivateTrade3.Minerals = line.Minerals;
+						ExpenseModel.PrivateTrade3.Iron = line.Iron;
+						ExpenseModel.PrivateTrade3.Oil = line.Oil;
+						ExpenseModel.PrivateTrade3.PMetals = line.PMetals;
+						ExpenseModel.PrivateTrade3.Uranium = line.Uranium;
+						ExpenseModel.PrivateTrade3.Ecs = line.Ecs;
+						OutputModel.tradeCountry3 = countryBox.selectedIndex + 1;
+						break;
+				}
+				ExpenseModel.PrivateTradeTotal = ExpenseModel.PrivateTradeTotal;
+				ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

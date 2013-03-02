@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:List xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		itemRenderer="com.ish.wimp.mxml.action.ActionListItemRenderer"
+		dragEnabled="true" dropEnabled="true" dragMoveEnabled="true"
+		dragComplete="dragHandler(event);"
+		hasFocusableChildren="true" xmlns:model="com.ish.wimp.model.*">
+	
+	<s:layout>
+		<s:VerticalLayout />
+	</s:layout>
+	
+	<s:dataProvider>
+		<s:ArrayList id="actionList">
+			<model:ActionRow LineNumber="0" />
+			<model:ActionRow LineNumber="1" />
+			<model:ActionRow LineNumber="2" />
+			<model:ActionRow LineNumber="3" />
+			<model:ActionRow LineNumber="4" />
+			<model:ActionRow LineNumber="5" />
+			<model:ActionRow LineNumber="6" />
+			<model:ActionRow LineNumber="7" />
+			<model:ActionRow LineNumber="8" />
+			<model:ActionRow LineNumber="9" />
+			<model:ActionRow LineNumber="10" />
+			<model:ActionRow LineNumber="11" />
+		</s:ArrayList>
+	</s:dataProvider>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.DragEvent;
+			public var sectionNumber : int;
+			
+			private function dragHandler( event : DragEvent ) : void {
+				for( var i : int = 0; i < actionList.length; ++i ) {
+					(actionList.getItemAt( i ) as ActionRow).LineNumber = i;
+					(dataGroup.getElementAt( i ) as ActionListItemRenderer).changeHandler();
+				}
+			}
+		]]>
+	</fx:Script>
+</s:List>
