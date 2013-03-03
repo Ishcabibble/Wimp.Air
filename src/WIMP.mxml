@@ -83,11 +83,9 @@
 			import com.ish.wimp.mxml.popup.LoadFilesPopup;
 			import com.ish.wimp.parsers.MapParser;
 			import com.ish.wimp.parsers.UnitParser;
-			import com.ish.wimp.view.Map;
 			
 			import mx.events.CloseEvent;
 			import mx.events.FlexNativeMenuEvent;
-			import mx.managers.CursorManager;
 			import mx.managers.PopUpManager;
 			
 			private function init() : void {
@@ -130,13 +128,6 @@
 			
 			private function finishLoadingFiles( evt : CloseEvent ) : void {
 				PopUpManager.removePopUp( LoadFilesPopup( evt.target ) );
-				com.ish.wimp.mxml.Map.publicGroup.removeAllElements();
-				var newMap : com.ish.wimp.view.Map = new com.ish.wimp.view.Map();
-				newMap.setGroup( com.ish.wimp.mxml.Map.publicGroup );
-				newMap.id = "map";
-				newMap.width = 3795;
-				newMap.height = 1900;
-				com.ish.wimp.mxml.Map.publicGroup.addElement( newMap );
 			}
 		]]>
 	</fx:Script>

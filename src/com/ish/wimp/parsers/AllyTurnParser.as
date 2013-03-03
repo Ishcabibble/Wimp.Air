@@ -1,6 +1,7 @@
 package com.ish.wimp.parsers {
 	import com.ish.wimp.model.input.AllyTurnModel;
 	import com.ish.wimp.model.input.CombatReport;
+	import com.ish.wimp.mxml.popup.LoadFilesPopup;
 	
 	import flash.events.Event;
 	import flash.net.FileReference;
@@ -59,6 +60,7 @@ package com.ish.wimp.parsers {
 		private function onFileSelect( e : Event ) : void {
 			file.addEventListener( Event.COMPLETE, onLoadComplete );
 			file.load();
+			LoadFilesPopup.allyFileNames.addItem( file.name );
 		}
 		
 		private function onLoadComplete( e : Event ) : void {

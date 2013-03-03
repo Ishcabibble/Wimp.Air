@@ -3,7 +3,7 @@
 									 xmlns:s="library://ns.adobe.com/flex/spark"
 									 xmlns:mx="library://ns.adobe.com/flex/mx"
 									 xmlns:customtitlewindow="net.flashdan.containers.customtitlewindow.*"
-									 title="Load player files; program will update on close"
+									 title="Load game files"
 									 creationComplete="init();">
 	
 	<s:Scroller left="1" right="1" top="1" bottom="1" width="100%" height="100%" skinClass="com.Shongrunden.CustomScrollerSkin">
@@ -12,24 +12,64 @@
 				<s:VerticalLayout paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" />
 			</s:layout>
 			
-			<s:Button label="Load world press file" click="new WorldPressParser().loadWorldPress();"/>
-			<s:Button label="Load player turn file" click="new PlayerTurnParser().loadPlayerTurn();" />
-			<s:Button label="Load ally turn file" click="new AllyTurnParser().loadPlayerTurn();" />
+			<s:Group>
+				<s:layout>
+					<s:HorizontalLayout verticalAlign="baseline" />
+				</s:layout>
+				<s:Button label="Select world press file" click="new WorldPressParser().loadWorldPress();" />
+				<s:Label text="{pressFileName}" />
+			</s:Group>
+			
+			<s:Group>
+				<s:layout>
+					<s:HorizontalLayout verticalAlign="baseline" />
+				</s:layout>
+				<s:Button label="Select player turn file" click="new PlayerTurnParser().loadPlayerTurn();" />
+				<s:Label text="{playerFileName}" />
+			</s:Group>
+			
+			<s:Button label="Select ally turn file" click="new AllyTurnParser().loadPlayerTurn();" />
+			<s:List dataProvider="{allyFileNames}" />
+			<s:Button label="Load files" click="loadFiles();" />
 		</s:Group>
 	</s:Scroller>
 	
 	<fx:Script>
 		<![CDATA[
 			import com.ish.wimp.model.input.AllyTurnModel;
+			import com.ish.wimp.mxml.Map;
 			import com.ish.wimp.parsers.AllyTurnParser;
 			import com.ish.wimp.parsers.PlayerTurnParser;
 			import com.ish.wimp.parsers.WorldPressParser;
+			import com.ish.wimp.view.Map;
+			
+			import mx.collections.ArrayList;
+			import mx.managers.PopUpManager;
+			
+			[Bindable] public static var pressFileName : String;
+			[Bindable] public static var playerFileName : String;
+			[Bindable] public static var allyFileNames : ArrayList;
 			
 			private function init() : void {
+				pressFileName = "None specified";
+				playerFileName = "None specified";
+				allyFileNames = new ArrayList();
+				
 				AllyTurnModel.combatMap = null;
 				AllyTurnModel.contestedHexList = null;
 				AllyTurnModel.ownedHexList = null;
 				AllyTurnModel.positionMap = null;
+			}
+			
+			private function loadFiles() : void {
+				com.ish.wimp.mxml.Map.publicGroup.removeAllElements();
+				var newMap : com.ish.wimp.view.Map = new com.ish.wimp.view.Map();
+				newMap.setGroup( com.ish.wimp.mxml.Map.publicGroup );
+				newMap.id = "map";
+				newMap.width = 3795;
+				newMap.height = 1900;
+				com.ish.wimp.mxml.Map.publicGroup.addElement( newMap );
+				PopUpManager.removePopUp( this );
 			}
 		]]>
 	</fx:Script>

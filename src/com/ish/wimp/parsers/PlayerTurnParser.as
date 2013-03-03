@@ -3,6 +3,7 @@ package com.ish.wimp.parsers {
 	import com.ish.wimp.model.input.CombatReport;
 	import com.ish.wimp.model.input.PlayerTurnModel;
 	import com.ish.wimp.mxml.Map;
+	import com.ish.wimp.mxml.popup.LoadFilesPopup;
 	import com.ish.wimp.view.Map;
 	
 	import flash.events.Event;
@@ -62,6 +63,7 @@ package com.ish.wimp.parsers {
 		private function onFileSelect( e : Event ) : void {
 			file.addEventListener( Event.COMPLETE, onLoadComplete );
 			file.load();
+			LoadFilesPopup.playerFileName = file.name;
 		}
 		
 		private function onLoadComplete( e : Event ) : void {
