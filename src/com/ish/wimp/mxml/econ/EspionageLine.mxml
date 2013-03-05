@@ -33,7 +33,7 @@
 			
 			[Bindable] public var lineNumber : int;
 			
-			private function missionHandler() : void {
+			public function missionHandler() : void {
 				switch( missionBox.selectedIndex ) {
 					case 4: currentState = "blank"; break;
 					case 0:
@@ -52,7 +52,7 @@
 				changeHandler();
 			}
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				var ecs : int = parseInt( ecInput.text );
 				if( isNaN(ecs) ) return adjustResource( 0 );
 				

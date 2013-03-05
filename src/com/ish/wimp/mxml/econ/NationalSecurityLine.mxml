@@ -16,7 +16,7 @@
 			import com.ish.wimp.model.Constants;
 			import com.ish.wimp.model.ExpenseModel;
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				var ecs : int = parseInt( ecInput.text );
 				if( isNaN(ecs) ) return adjustResource( 0 );
 				

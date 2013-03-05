@@ -31,7 +31,7 @@
 			[Bindable] public function get ExpenseLine() : ExpenseLineModel { return expenseLine; }
 			public function set ExpenseLine( value : ExpenseLineModel ) : void { expenseLine = value; }
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				var qty : int = parseInt( qtyInput.text );
 				var unitCode : String = unitInput.text;
 				if( isNaN(qty) || unitCode == null || unitCode == "" ) return clearLine();

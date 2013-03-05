@@ -6,10 +6,10 @@
 		 xmlns:iwobanas="com.iwobanas.*">
 	
 	<iwobanas:CollapsiblePanel title="Espionage and National Security" width="{Constants.EXPENSE_PANEL_WIDTH}" height="100%" expenseLineModel="{ExpenseModel.EspionageTotal}" >
-		<econ:EspionageLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" lineNumber="1" />
-		<econ:EspionageLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" lineNumber="2" />
-		<econ:EspionageLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" lineNumber="3" />
-		<econ:NationalSecurityLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+3*Constants.PROD_LINE_HEIGHT}" />
+		<econ:EspionageLine id="espLine1" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" lineNumber="1" />
+		<econ:EspionageLine id="espLine2" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" lineNumber="2" />
+		<econ:EspionageLine id="espLine3" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" lineNumber="3" />
+		<econ:NationalSecurityLine id="natsecLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+3*Constants.PROD_LINE_HEIGHT}" />
 		<s:Spacer y="{Constants.PROD_TOP_PAD+4*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" />
 	</iwobanas:CollapsiblePanel>
 	

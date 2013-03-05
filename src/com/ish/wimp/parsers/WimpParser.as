@@ -1,8 +1,15 @@
 package com.ish.wimp.parsers {
-	import com.ish.wimp.model.ExpenseModel;
+	import com.ish.wimp.model.output.OutputModel;
 	import com.ish.wimp.mxml.action.AllianceLine;
+	import com.ish.wimp.mxml.action.DropHexLine;
+	import com.ish.wimp.mxml.action.TacNukeLine;
+	import com.ish.wimp.mxml.econ.EspionageLine;
 	import com.ish.wimp.mxml.econ.ForeignAidLine;
+	import com.ish.wimp.mxml.econ.NationalSecurityLine;
 	import com.ish.wimp.mxml.econ.PrivateTradeLine;
+	import com.ish.wimp.mxml.econ.ProductionLine;
+	import com.ish.wimp.mxml.econ.ScrapLine;
+	import com.ish.wimp.mxml.econ.TechRecoveryLine;
 	import com.ish.wimp.mxml.econ.WorldMarketLine;
 	import com.ish.wimp.mxml.popup.LoadFilesPopup;
 	
@@ -46,6 +53,9 @@ package com.ish.wimp.parsers {
 			var tradeLine : int = 0;
 			var aidLine : int = 0;
 			var allyLine : int = 0;
+			var disbandLine : int = 0;
+			var productionLine : int = 0;
+			var espionageLine : int = 0;
 			
 			var data : String = file.data.readUTFBytes( file.data.bytesAvailable );
 			var lines : Array = data.split( LINE_SPLIT_REGEX );
@@ -55,35 +65,21 @@ package com.ish.wimp.parsers {
 				line = lines[i];
 				arr = line.split( SPLIT_REGEX );
 				
-				if( MARKET_TEST_REGEX.test( line ) ) {
-					doMarket( arr );
-				} else if( TRADE_TEST_REGEX.test( line ) ) {
-					doTrade( arr, tradeLine++ );
-				} else if( AID_TEST_REGEX.test( line ) ) {
-					doAid( arr, aidLine++ );
-				} else if( ALLY_TEST_REGEX.test( line ) ) {
-					doAlly( arr, allyLine++ );
-				} else if( DISBAND_TEST_REGEX.test( line ) ) {
-					
-				} else if( DROPHEX_TEST_REGEX.test( line ) ) {
-					
-				} else if( TECH_TEST_REGEX.test( line ) ) {
-					
-				} else if( PRODUCTION_TEST_REGEX.test( line ) ) {
-					
-				} else if( NATSEC_TEST_REGEX.test( line ) ) {
-					
-				} else if( TACNUKE_TEST_REGEX.test( line ) ) {
-					
-				} else if( ESPIONAGE_TEST_REGEX.test( line ) ) {
-					
-				} else if( ACTION_TEST_REGEX.test( line ) ) {
+				if( MARKET_TEST_REGEX.test( line ) ) doMarket( arr );
+				else if( TRADE_TEST_REGEX.test( line ) ) doTrade( arr, tradeLine++ );
+				else if( AID_TEST_REGEX.test( line ) ) doAid( arr, aidLine++ );
+				else if( ALLY_TEST_REGEX.test( line ) ) doAlly( arr, allyLine++ );
+				else if( DISBAND_TEST_REGEX.test( line ) ) doDisband( arr, disbandLine++ );
+				else if( DROPHEX_TEST_REGEX.test( line ) ) doDrop( arr );
+				else if( TECH_TEST_REGEX.test( line ) ) doTech( arr );
+				else if( PRODUCTION_TEST_REGEX.test( line ) ) doProduction( arr, productionLine++ )
+				else if( NATSEC_TEST_REGEX.test( line ) ) doNatsec( arr );
+				else if( TACNUKE_TEST_REGEX.test( line ) ) doTacNuke( arr );
+				else if( ESPIONAGE_TEST_REGEX.test( line ) ) doEspionage( arr, espionageLine++ );
+				else if( ACTION_TEST_REGEX.test( line ) ) {
 					
 				}
 			}
-			
-			ExpenseModel.WorldMarket = ExpenseModel.WorldMarket;
-			ExpenseModel.EndingBalance = ExpenseModel.EndingBalance;
 		}
 		
 		private function doMarket( arr : Array ) : void {
@@ -135,7 +131,7 @@ package com.ish.wimp.parsers {
 			if( line != null ) {
 				line.qtyInput1.text = arr[2];
 				line.resourceBox1.selectedIndex = giveIndex;
-				line.countryBox.selectedIndex = parseInt( arr[6] ) - 1;
+				line.countryBox.selectedIndex = isNaN( parseInt( arr[6] ) ) ? -1 : parseInt( arr[6] ) - 1;
 				line.qtyInput2.text = arr[8];
 				line.resourceBox2.selectedIndex = forIndex;
 				line.changeHandler();
@@ -151,7 +147,7 @@ package com.ish.wimp.parsers {
 			
 			if( line != null ) {
 				line.ecInput.text = arr[2];
-				line.countryBox.selectedIndex = parseInt( arr[4] ) - 1;
+				line.countryBox.selectedIndex = isNaN( parseInt( arr[4] ) ) ? -1 : parseInt( arr[4] ) - 1;
 				line.changeHandler();
 			}
 		}
@@ -164,8 +160,154 @@ package com.ish.wimp.parsers {
 			}
 			
 			if( line != null ) {
-				line.makeBox.selectedIndex = parseInt( arr[2] ) - 1;
-				line.breakBox.selectedIndex = parseInt( arr[4] ) - 1;
+				line.makeBox.selectedIndex = isNaN( parseInt( arr[2] ) ) ? -1 : parseInt( arr[2] ) - 1;
+				line.breakBox.selectedIndex = isNaN( parseInt( arr[4] ) ) ? -1 : parseInt( arr[4] ) - 1;
+				line.changeHandler();
+			}
+		}
+		
+		private function doDisband( arr : Array, lineNumber : int ) : void {
+			var line : ScrapLine;
+			switch( lineNumber ) {
+				case 0: line = app.economics.scrap.scrap1; break;
+				case 1: line = app.economics.scrap.scrap2; break;
+			}
+			
+			if( line != null ) {
+				line.qtyInput.text = arr[2];
+				line.unitInput.text = arr[4];
+				line.hexInput.text = arr[6];
+				line.recoveryCheck.selected = false;
+				line.changeHandler();
+			}
+		}
+		
+		private function doDrop( arr : Array ) : void {
+			var line : DropHexLine = app.actions.dropHex;
+			if( line != null ) {
+				line.hexInput.text = arr[2];
+				line.changeHandler();
+			}
+		}
+		
+		private function doTech( arr : Array ) : void {
+			doTechLine( app.economics.techRecovery.infTechLine, arr[2] );
+			doTechLine( app.economics.techRecovery.vehTechLine, arr[4] );
+			doTechLine( app.economics.techRecovery.aerTechLine, arr[6] );
+			doTechLine( app.economics.techRecovery.navTechLine, arr[8] );
+			doTechLine( app.economics.techRecovery.nucTechLine, arr[10] );
+		}
+		
+		private function doTechLine( line : TechRecoveryLine, input : String ) : void {
+			if( line != null ) {
+				line.ecInput.text = input;
+				line.changeHandler();
+			}
+		}
+		
+		private function doProduction( arr : Array, lineNumber : int ) : void {
+			var line : ProductionLine;
+			switch( lineNumber ) {
+				case 0: line = app.economics.production.prodLine1; break;
+				case 1: line = app.economics.production.prodLine2; break;
+				case 2: line = app.economics.production.prodLine3; break;
+				case 3: line = app.economics.production.prodLine4; break;
+				case 4: line = app.economics.production.prodLine5; break;
+			}
+			
+			if( line != null ) {
+				line.qtyInput.text = arr[2];
+				line.unitInput.text = arr[4];
+				line.sourceHex.text = arr[6];
+				line.destHex.text = arr[8];
+				line.changeHandler();
+			}
+		}
+		
+		private function doNatsec( arr : Array ) : void {
+			var line : NationalSecurityLine = app.economics.espionage.natsecLine;
+			if( line != null ) {
+				line.ecInput.text = arr[2];
+				line.changeHandler();
+			}
+		}
+		
+		private function doTacNuke( arr : Array ) : void {
+			var line : TacNukeLine = app.actions.tacNuke;
+			if( line != null ) {
+				switch( arr[2] ) {
+					case "1": line.tacNukeBox.selectedIndex = 1; break;
+					case "5": line.tacNukeBox.selectedIndex = 2; break;
+					case "10": line.tacNukeBox.selectedIndex = 3; break;
+					case "50": line.tacNukeBox.selectedIndex = 4; break;
+					case "100": line.tacNukeBox.selectedIndex = 5; break;
+					case "500": line.tacNukeBox.selectedIndex = 6; break;
+					default: line.tacNukeBox.selectedIndex = 0; break;
+				}
+				line.tacNukeHandler();
+			}
+		}
+		
+		private function doEspionage( arr : Array, lineNumber : int ) : void {
+			var line : EspionageLine;
+			switch( lineNumber ) {
+				case 0: line = app.economics.espionage.espLine1; break;
+				case 1: line = app.economics.espionage.espLine2; break;
+				case 2: line = app.economics.espionage.espLine3; break;
+			}
+			
+			if( line != null ) {
+				line.ecInput.text = arr[2];
+				switch( arr[4] ) {
+					case "DR": line.missionBox.selectedIndex = 0; break;
+					case "DS": line.missionBox.selectedIndex = 1; break;
+					case "DT": line.missionBox.selectedIndex = 2; break;
+					case "IN": line.missionBox.selectedIndex = 3; break;
+					case "PA": line.missionBox.selectedIndex = 4; break;
+					case "RG": line.missionBox.selectedIndex = 5; break;
+					case "RH": line.missionBox.selectedIndex = 6; break;
+					case "RP": line.missionBox.selectedIndex = 7; break;
+					case "SA": line.missionBox.selectedIndex = 8; break;
+					case "SN": line.missionBox.selectedIndex = 9; break;
+					case "SP": line.missionBox.selectedIndex = 10; break;
+					case "SR": line.missionBox.selectedIndex = 11; break;
+					case "ST": line.missionBox.selectedIndex = 12; break;
+					default: line.missionBox.selectedIndex = -1; break;
+				}
+				line.missionHandler();
+				
+				switch( line.currentState ) {
+					case "blank":
+						break;
+					case "country":
+						line.countryBox.selectedIndex = isNaN( parseInt( arr[6] ) ) ? -1 : parseInt( arr[6] ) - 1;
+						break;
+					case "hex":
+						line.hexInput.text = arr[6];
+						break;
+					case "SR":
+					case "ST":
+						line.countryBox.selectedIndex = isNaN( parseInt( arr[6] ) ) ? -1 : parseInt( arr[6] ) - 1;
+						switch( arr[8] ) {
+							case "F": line.resourceBox.selectedIndex = 0; break;
+							case "M": line.resourceBox.selectedIndex = 1; break;
+							case "I": line.resourceBox.selectedIndex = 2; break;
+							case "O": line.resourceBox.selectedIndex = 3; break;
+							case "P": line.resourceBox.selectedIndex = 4; break;
+							case "U": line.resourceBox.selectedIndex = 5; break;
+							case "Inf": line.techTypeBox.selectedIndex = 0; break;
+							case "Veh": line.techTypeBox.selectedIndex = 1; break;
+							case "Aer": line.techTypeBox.selectedIndex = 2; break;
+							case "Nav": line.techTypeBox.selectedIndex = 3; break;
+							case "Nuc": line.techTypeBox.selectedIndex = 4; break;
+							default:
+								line.resourceBox.selectedIndex = -1;
+								line.techTypeBox.selectedIndex = -1;
+								break;
+						}
+						break;
+				}
+				
 				line.changeHandler();
 			}
 		}

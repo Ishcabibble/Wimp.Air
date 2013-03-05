@@ -6,8 +6,8 @@
 		 xmlns:iwobanas="com.iwobanas.*">
 	
 	<iwobanas:CollapsiblePanel title="Scrap" width="{Constants.EXPENSE_PANEL_WIDTH}" height="100%" expenseLineModel="{ExpenseModel.ScrapTotal}" >
-		<econ:ScrapLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Scrap1}" lineNumber="1" />
-		<econ:ScrapLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Scrap2}" lineNumber="2" />
+		<econ:ScrapLine id="scrap1" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Scrap1}" lineNumber="1" />
+		<econ:ScrapLine id="scrap2" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" ExpenseLine="{ExpenseModel.Scrap2}" lineNumber="2" />
 		<s:Spacer y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" />
 	</iwobanas:CollapsiblePanel>
 	

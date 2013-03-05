@@ -21,7 +21,7 @@
 			[Bindable] private var automatic : int;
 			[Bindable] private var probability : int;
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				var ecs : int = parseInt( ecInput.text );
 				if( isNaN(ecs) ) return adjustResource( 0 );
 				

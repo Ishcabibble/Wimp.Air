@@ -16,7 +16,7 @@
 			import com.ish.wimp.model.input.PlayerTurnModel;
 			import com.ish.wimp.model.output.OutputModel;
 			
-			private function tacNukeHandler() : void {
+			public function tacNukeHandler() : void {
 				switch( tacNukeBox.selectedIndex ) {
 					case 0: OutputModel.tacNuke = ""; break;
 					case 1: OutputModel.tacNuke = "1"; break;

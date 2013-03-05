@@ -14,8 +14,8 @@
 				<s:layout>
 					<s:VerticalLayout />
 				</s:layout>
-				<action:TacNukeLine />
-				<action:DropHexLine />
+				<action:TacNukeLine id="tacNuke" />
+				<action:DropHexLine id="dropHex" />
 				<action:AllianceLine id="allianceLine1" lineNumber="1" />
 				<action:AllianceLine id="allianceLine2" visible="{PlayerTurnModel.superpower}" includeInLayout="{PlayerTurnModel.superpower}" lineNumber="2" />
 				

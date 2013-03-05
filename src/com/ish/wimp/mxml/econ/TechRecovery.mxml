@@ -6,11 +6,11 @@
 		 xmlns:iwobanas="com.iwobanas.*">
 	
 	<iwobanas:CollapsiblePanel title="Tech Recovery" width="{Constants.EXPENSE_PANEL_WIDTH}" height="100%" expenseLineModel="{ExpenseModel.TechRecovery}" >
-		<econ:TechRecoveryLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" techType="Inf"/>
-		<econ:TechRecoveryLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" techType="Veh"/>
-		<econ:TechRecoveryLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" techType="Aer"/>
-		<econ:TechRecoveryLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+3*Constants.PROD_LINE_HEIGHT}" techType="Nav"/>
-		<econ:TechRecoveryLine x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+4*Constants.PROD_LINE_HEIGHT}" techType="Nuc"/>
+		<econ:TechRecoveryLine id="infTechLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+0*Constants.PROD_LINE_HEIGHT}" techType="Inf"/>
+		<econ:TechRecoveryLine id="vehTechLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+1*Constants.PROD_LINE_HEIGHT}" techType="Veh"/>
+		<econ:TechRecoveryLine id="aerTechLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+2*Constants.PROD_LINE_HEIGHT}" techType="Aer"/>
+		<econ:TechRecoveryLine id="navTechLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+3*Constants.PROD_LINE_HEIGHT}" techType="Nav"/>
+		<econ:TechRecoveryLine id="nucTechLine" x="{Constants.PROD_LEFT_PAD}" y="{Constants.PROD_TOP_PAD+4*Constants.PROD_LINE_HEIGHT}" techType="Nuc"/>
 		<s:Spacer y="{Constants.PROD_TOP_PAD+5*Constants.PROD_LINE_HEIGHT}" height="{Constants.PROD_BOT_PAD}" />
 	</iwobanas:CollapsiblePanel>
 	

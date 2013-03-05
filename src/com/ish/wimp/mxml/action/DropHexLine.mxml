@@ -14,7 +14,7 @@
 		<![CDATA[
 			import com.ish.wimp.model.output.OutputModel;
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				OutputModel.dropHex = hexInput.text;
 			}
 		]]>

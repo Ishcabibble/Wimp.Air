@@ -42,16 +42,17 @@
 	</fx:Style>
 	
 	<s:states>
+		<s:State name="Init" />
 		<s:State name="Map" />
 		<s:State name="Actions" />
 		<s:State name="Economics" />
 		<s:State name="WorldPress" />
 	</s:states>
 	
-	<mxml:Map id="map" includeIn="Map" width="100%" height="100%"/>
-	<mxml:Actions id="actions" includeIn="Actions" width="100%" height="100%"/>
-	<mxml:Economics id="economics" includeIn="Economics" width="100%" height="100%"/>
-	<mxml:WorldPress includeIn="WorldPress" width="100%" height="100%"/>
+	<mxml:Map id="map" includeIn="Init,Map" width="100%" height="100%"/>
+	<mxml:Actions id="actions" includeIn="Init,Actions" width="100%" height="100%"/>
+	<mxml:Economics id="economics" includeIn="Init,Economics" width="100%" height="100%"/>
+	<mxml:WorldPress id="worldPress" includeIn="Init,WorldPress" width="100%" height="100%"/>
 	
 	<s:menu>
 		<mx:FlexNativeMenu dataProvider="{menuData}" labelField="@label" showRoot="false" itemClick="menuMouseClickHandler(event)"/>
