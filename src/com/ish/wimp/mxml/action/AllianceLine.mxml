@@ -20,7 +20,7 @@
 			
 			public var lineNumber : int;
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				switch( lineNumber ) {
 					case 1:
 						OutputModel.allianceMake1 = makeBox.selectedIndex + 1;

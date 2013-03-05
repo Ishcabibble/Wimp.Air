@@ -49,7 +49,7 @@
 	</s:states>
 	
 	<mxml:Map id="map" includeIn="Map" width="100%" height="100%"/>
-	<mxml:Actions includeIn="Actions" width="100%" height="100%"/>
+	<mxml:Actions id="actions" includeIn="Actions" width="100%" height="100%"/>
 	<mxml:Economics id="economics" includeIn="Economics" width="100%" height="100%"/>
 	<mxml:WorldPress includeIn="WorldPress" width="100%" height="100%"/>
 	

@@ -21,7 +21,7 @@
 			
 			[Bindable] public var lineNumber : int;
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				var ecs : int = parseInt( ecInput.text );
 				if( isNaN(ecs) ) return adjustResource( 0 );
 				adjustResource( ecs );

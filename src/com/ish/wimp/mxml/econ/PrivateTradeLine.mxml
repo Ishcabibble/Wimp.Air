@@ -30,7 +30,7 @@
 			[Bindable] public function get ExpenseLine() : ExpenseLineModel { return expenseLine; }
 			public function set ExpenseLine( value : ExpenseLineModel ) : void { expenseLine = value; }
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				var qty1 : int = parseInt( qtyInput1.text );
 				var qty2 : int = parseInt( qtyInput2.text );
 				var resourceIndex1 : int = resourceBox1.selectedIndex;

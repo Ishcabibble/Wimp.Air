@@ -29,7 +29,7 @@
 			
 			[Bindable] public var resource : String;
 			
-			private function changeHandler() : void {
+			public function changeHandler() : void {
 				if( WorldPressModel.worldMarketFood == null ) {
 					NotLoadedWarning.worldPressNotLoaded();
 					return;
