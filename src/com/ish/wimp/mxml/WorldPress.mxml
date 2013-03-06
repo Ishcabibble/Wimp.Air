@@ -2,6 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="init();"
 		 stateChangeComplete="stateChangeHandler(event);">
 	
 	<s:states>
@@ -83,35 +84,37 @@
 			[Bindable] private var maxChars2 : int = 245;
 			[Bindable] private var maxChars3 : int = 245;
 			
+			private function init( ) : void {
+				currentState = "three";
+				currentState = "init";
+			}
+			
 			private function dropDownChangeHandler( event : spark.events.IndexChangeEvent ) : void {
-				if( event.newIndex == 0 ) {
-					currentState = "init";
-					OutputModel.pressNumber = 0;
-				} else if( event.newIndex == 1 ) {
-					currentState = "one";
-					OutputModel.pressNumber = 1;
-				} else if( event.newIndex == 2 ) {
-					currentState = "two";
-					OutputModel.pressNumber = 2;
-				} else {
-					currentState = "three";
-					OutputModel.pressNumber = 3;
-				}
+				if( event.newIndex == 0 ) currentState = "init";
+				else if( event.newIndex == 1 ) currentState = "one";
+				else if( event.newIndex == 2 ) currentState = "two";
+				else currentState = "three";
 			}
 			
 			private function stateChangeHandler( event : FlexEvent ) : void {
 				switch( currentState ) {
+					case "init":
+						OutputModel.pressNumber = 0;
+						break;
 					case "one":
 						maxChars1 = 735;
+						OutputModel.pressNumber = 1;
 						break;
 					case "two":
 						maxChars1 = 490;
 						maxChars2 = 245;
+						OutputModel.pressNumber = 2;
 						break;
 					case "three":
 						maxChars1 = 245;
 						maxChars2 = 245;
 						maxChars3 = 245;
+						OutputModel.pressNumber = 3;
 						break;
 				}
 				if( pressText1 != null ) charsRemaining1 = maxChars1 - pressText1.text.length;
@@ -137,6 +140,17 @@
 				}
 			}
 			
+			public function updateTextAreas( ) : void {
+				charsRemaining1 = maxChars1 - pressText1.text.length;
+				OutputModel.pressText0 = pressText1.text;
+				
+				charsRemaining2 = maxChars2 - pressText2.text.length;
+				OutputModel.pressText1 = pressText2.text;
+				
+				charsRemaining3 = maxChars3 - pressText3.text.length;
+				OutputModel.pressText2 = pressText3.text;
+			}
+			
 			private function checkClickHandler( event : MouseEvent ) : void {
 				var checkBox : CheckBox = event.currentTarget as CheckBox;
 				switch( checkBox.id ) {
@@ -150,6 +164,12 @@
 						OutputModel.pressAnon2 = checkBox.selected;
 						break;
 				}
+			}
+			
+			public function updateChecks( ) : void {
+				OutputModel.pressAnon0 = pressCheck1.selected;
+				OutputModel.pressAnon1 = pressCheck2.selected;
+				OutputModel.pressAnon2 = pressCheck3.selected;
 			}
 		]]>
 	</fx:Script>

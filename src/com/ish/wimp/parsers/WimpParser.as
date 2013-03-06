@@ -1,5 +1,5 @@
 package com.ish.wimp.parsers {
-	import com.ish.wimp.model.output.OutputModel;
+	import com.ish.wimp.model.ActionRow;
 	import com.ish.wimp.mxml.action.AllianceLine;
 	import com.ish.wimp.mxml.action.DropHexLine;
 	import com.ish.wimp.mxml.action.TacNukeLine;
@@ -17,6 +17,7 @@ package com.ish.wimp.parsers {
 	import flash.net.FileReference;
 	
 	import mx.core.FlexGlobals;
+	import mx.utils.StringUtil;
 
 	public class WimpParser {
 		private const LINE_SPLIT_REGEX : RegExp = /[\r\n]/;
@@ -32,10 +33,18 @@ package com.ish.wimp.parsers {
 		private const TACNUKE_TEST_REGEX : RegExp = /^TACNUKE/;
 		private const ESPIONAGE_TEST_REGEX : RegExp = /^ESP/;
 		private const ACTION_TEST_REGEX : RegExp = /^ACTION/;
+		private const ANON_TEST_REGEX : RegExp = /^ANONYMOUS/;
+		private const PRESS0_TEST_REGEX : RegExp = /^PRESS0/;
+		private const PRESS1_TEST_REGEX : RegExp = /^PRESS1/;
+		private const PRESS2_TEST_REGEX : RegExp = /^PRESS2/;
 		private const SPLIT_REGEX : RegExp = /( |,)/;
 		
 		private var app : WIMP = FlexGlobals.topLevelApplication as WIMP;
 		private var file : FileReference;
+		
+		private var press0 : String;
+		private var press1 : String;
+		private var press2 : String;
 		
 		public function loadWimp() : void {
 			file = new FileReference( );
@@ -50,12 +59,17 @@ package com.ish.wimp.parsers {
 		}
 		
 		private function onLoadComplete( e : Event ) : void {
+			press0 = "";
+			press1 = "";
+			press2 = "";
+			
 			var tradeLine : int = 0;
 			var aidLine : int = 0;
 			var allyLine : int = 0;
 			var disbandLine : int = 0;
 			var productionLine : int = 0;
 			var espionageLine : int = 0;
+			var actionLine : int = 0;
 			
 			var data : String = file.data.readUTFBytes( file.data.bytesAvailable );
 			var lines : Array = data.split( LINE_SPLIT_REGEX );
@@ -76,10 +90,13 @@ package com.ish.wimp.parsers {
 				else if( NATSEC_TEST_REGEX.test( line ) ) doNatsec( arr );
 				else if( TACNUKE_TEST_REGEX.test( line ) ) doTacNuke( arr );
 				else if( ESPIONAGE_TEST_REGEX.test( line ) ) doEspionage( arr, espionageLine++ );
-				else if( ACTION_TEST_REGEX.test( line ) ) {
-					
-				}
+				else if( ACTION_TEST_REGEX.test( line ) ) doAction( arr, actionLine++ );
+				else if( ANON_TEST_REGEX.test( line ) ) doAnon( line );
+				else if( PRESS0_TEST_REGEX.test( line ) ) doPress( line, 0 );
+				else if( PRESS1_TEST_REGEX.test( line ) ) doPress( line, 1 );
+				else if( PRESS2_TEST_REGEX.test( line ) ) doPress( line, 2 );
 			}
+			finishPress();
 		}
 		
 		private function doMarket( arr : Array ) : void {
@@ -310,6 +327,71 @@ package com.ish.wimp.parsers {
 				
 				line.changeHandler();
 			}
+		}
+		
+		private function doAction( arr : Array, lineNumber : int ) : void {
+			var line : ActionRow = app.actions.normalActionList.actionList.source[lineNumber];
+			
+			if( line != null ) {
+				line.Qty = arr[2];
+				line.Unit = arr[4];
+				line.Source = arr[6];
+				line.Mission = arr[8];
+				line.Hex0 = arr[10];
+				line.Hex1 = arr[12];
+				line.Hex2 = arr[14];
+				line.Hex3 = arr[16];
+				line.Hex4 = arr[18];
+				line.Hex5 = arr[20];
+				line.Hex6 = arr[22];
+				line.Hex7 = arr[24];
+				line.Hex8 = arr[26];
+				line.Hex9 = arr[28];
+				
+				app.actions.normalActionList.updateItemRenderer( lineNumber );
+			}
+		}
+		
+		private function doAnon( line : String ) : void {
+			app.worldPress.pressCheck1.selected = line.indexOf( "0" ) > -1;
+			app.worldPress.pressCheck2.selected = line.indexOf( "1" ) > -1;
+			app.worldPress.pressCheck3.selected = line.indexOf( "2" ) > -1;
+			app.worldPress.updateChecks();
+		}
+		
+		private function doPress( line : String, pressNumber : int ) : void {
+			switch( pressNumber ) {
+				case 0:
+					press0 = press0.concat( line.substr( 7 ) );
+					break;
+				case 1:
+					press1 = press1.concat( line.substr( 7 ) );
+					break;
+				case 2:
+					press2 = press2.concat( line.substr( 7 ) );
+					break;
+			}
+		}
+		
+		private function finishPress( ) : void {
+			if( press0 == "" && press1 == "" && press2 == "" ) {
+				app.worldPress.numPressBox.selectedIndex = 0;
+				app.worldPress.currentState = "init";
+			} else if( press0 != "" && press1 != "" && press2 != "" ) {
+				app.worldPress.numPressBox.selectedIndex = 3;
+				app.worldPress.currentState = "three";
+			} else if( press0 != "" && press1 != "" ) {
+				app.worldPress.numPressBox.selectedIndex = 2;
+				app.worldPress.currentState = "two";
+			} else if( press0 != "" ) {
+				app.worldPress.numPressBox.selectedIndex = 1;
+				app.worldPress.currentState = "one";
+			}
+			
+			app.worldPress.pressText1.text = StringUtil.trim( press0 );
+			app.worldPress.pressText2.text = StringUtil.trim( press1 );
+			app.worldPress.pressText3.text = StringUtil.trim( press2 );
+			app.worldPress.updateTextAreas();
 		}
 	}
 }

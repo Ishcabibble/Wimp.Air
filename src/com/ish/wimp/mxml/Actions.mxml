@@ -24,8 +24,8 @@
 				<s:layout>
 					<s:VerticalLayout gap="0" />
 				</s:layout>
-				<action:ActionList sectionNumber="0" />
-				<action:ActionList visible="{PlayerTurnModel.superpower}" includeInLayout="{PlayerTurnModel.superpower}" sectionNumber="1" />
+				<action:ActionList id="normalActionList" sectionNumber="0" />
+				<action:ActionList id="superActionList" visible="{PlayerTurnModel.superpower}" includeInLayout="{PlayerTurnModel.superpower}" sectionNumber="1" />
 			</s:Group>
 		</s:Group>
 	</s:Scroller>

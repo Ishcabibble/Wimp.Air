@@ -39,6 +39,10 @@
 					(dataGroup.getElementAt( i ) as ActionListItemRenderer).changeHandler();
 				}
 			}
+			
+			public function updateItemRenderer( lineNumber : int ) : void {
+				(dataGroup.getElementAt( lineNumber ) as ActionListItemRenderer).changeHandler();
+			}
 		]]>
 	</fx:Script>
 </s:List>
