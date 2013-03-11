@@ -13,6 +13,16 @@ package com.ish.wimp.model.output {
 		public static var worldMarketUraniumBuy : String;
 		public static var worldMarketUraniumQty : int;
 		
+		public static var tradeSameResource1 : int;
+		public static var tradeSameGive1 : int;
+		public static var tradeSameFor1 : int;
+		public static var tradeSameResource2 : int;
+		public static var tradeSameGive2 : int;
+		public static var tradeSameFor2 : int;
+		public static var tradeSameResource3 : int;
+		public static var tradeSameGive3 : int;
+		public static var tradeSameFor3 : int;
+		
 		public static var tradeCountry1 : int;
 		public static var tradeCountry2 : int;
 		public static var tradeCountry3 : int;

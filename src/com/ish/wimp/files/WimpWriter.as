@@ -96,97 +96,144 @@ package com.ish.wimp.files {
 		
 		private static function writeTrade() : void {
 			fileStream.writeUTFBytes( "TRADE " );
-			if( ExpenseModel.PrivateTrade1.Food < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Food + ",F," + OutputModel.tradeCountry1 + "," );
-			else if( ExpenseModel.PrivateTrade1.Minerals < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Minerals + ",M," + OutputModel.tradeCountry1 + "," );
-			else if( ExpenseModel.PrivateTrade1.Iron < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Iron + ",I," + OutputModel.tradeCountry1 + "," );
-			else if( ExpenseModel.PrivateTrade1.Oil < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Oil + ",O," + OutputModel.tradeCountry1 + "," );
-			else if( ExpenseModel.PrivateTrade1.PMetals < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.PMetals + ",P," + OutputModel.tradeCountry1 + "," );
-			else if( ExpenseModel.PrivateTrade1.Uranium < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Uranium + ",U," + OutputModel.tradeCountry1 + "," );
-			else
-				fileStream.writeUTFBytes( ",,," );
-			if( ExpenseModel.PrivateTrade1.Food > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Food + ",F" );
-			else if( ExpenseModel.PrivateTrade1.Minerals > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Minerals + ",M" );
-			else if( ExpenseModel.PrivateTrade1.Iron > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Iron + ",I" );
-			else if( ExpenseModel.PrivateTrade1.Oil > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Oil + ",O" );
-			else if( ExpenseModel.PrivateTrade1.PMetals > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.PMetals + ",P" );
-			else if( ExpenseModel.PrivateTrade1.Uranium > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Uranium + ",U" );
-			else
-				fileStream.writeUTFBytes( "," );
+			if( OutputModel.tradeSameGive1 > 0 )
+				writeSameTrade( 1 );
+			else {
+				if( ExpenseModel.PrivateTrade1.Food < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Food + ",F," + OutputModel.tradeCountry1 + "," );
+				else if( ExpenseModel.PrivateTrade1.Minerals < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Minerals + ",M," + OutputModel.tradeCountry1 + "," );
+				else if( ExpenseModel.PrivateTrade1.Iron < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Iron + ",I," + OutputModel.tradeCountry1 + "," );
+				else if( ExpenseModel.PrivateTrade1.Oil < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Oil + ",O," + OutputModel.tradeCountry1 + "," );
+				else if( ExpenseModel.PrivateTrade1.PMetals < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.PMetals + ",P," + OutputModel.tradeCountry1 + "," );
+				else if( ExpenseModel.PrivateTrade1.Uranium < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade1.Uranium + ",U," + OutputModel.tradeCountry1 + "," );
+				else
+					fileStream.writeUTFBytes( ",,," );
+				if( ExpenseModel.PrivateTrade1.Food > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Food + ",F" );
+				else if( ExpenseModel.PrivateTrade1.Minerals > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Minerals + ",M" );
+				else if( ExpenseModel.PrivateTrade1.Iron > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Iron + ",I" );
+				else if( ExpenseModel.PrivateTrade1.Oil > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Oil + ",O" );
+				else if( ExpenseModel.PrivateTrade1.PMetals > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.PMetals + ",P" );
+				else if( ExpenseModel.PrivateTrade1.Uranium > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade1.Uranium + ",U" );
+				else
+					fileStream.writeUTFBytes( "," );
+			}
 			fileStream.writeUTFBytes( "\n" );
 			
 			fileStream.writeUTFBytes( "TRADE " );
-			if( ExpenseModel.PrivateTrade2.Food < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Food + ",F," + OutputModel.tradeCountry2 + "," );
-			else if( ExpenseModel.PrivateTrade2.Minerals < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Minerals + ",M," + OutputModel.tradeCountry2 + "," );
-			else if( ExpenseModel.PrivateTrade2.Iron < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Iron + ",I," + OutputModel.tradeCountry2 + "," );
-			else if( ExpenseModel.PrivateTrade2.Oil < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Oil + ",O," + OutputModel.tradeCountry2 + "," );
-			else if( ExpenseModel.PrivateTrade2.PMetals < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.PMetals + ",P," + OutputModel.tradeCountry2 + "," );
-			else if( ExpenseModel.PrivateTrade2.Uranium < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Uranium + ",U," + OutputModel.tradeCountry2 + "," );
-			else
-				fileStream.writeUTFBytes( ",,," );
-			if( ExpenseModel.PrivateTrade2.Food > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Food + ",F" );
-			else if( ExpenseModel.PrivateTrade2.Minerals > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Minerals + ",M" );
-			else if( ExpenseModel.PrivateTrade2.Iron > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Iron + ",I" );
-			else if( ExpenseModel.PrivateTrade2.Oil > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Oil + ",O" );
-			else if( ExpenseModel.PrivateTrade2.PMetals > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.PMetals + ",P" );
-			else if( ExpenseModel.PrivateTrade2.Uranium > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Uranium + ",U" );
-			else
-				fileStream.writeUTFBytes( "," );
+			if( OutputModel.tradeSameGive2 > 0 )
+				writeSameTrade( 2 );
+			else {
+				if( ExpenseModel.PrivateTrade2.Food < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Food + ",F," + OutputModel.tradeCountry2 + "," );
+				else if( ExpenseModel.PrivateTrade2.Minerals < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Minerals + ",M," + OutputModel.tradeCountry2 + "," );
+				else if( ExpenseModel.PrivateTrade2.Iron < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Iron + ",I," + OutputModel.tradeCountry2 + "," );
+				else if( ExpenseModel.PrivateTrade2.Oil < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Oil + ",O," + OutputModel.tradeCountry2 + "," );
+				else if( ExpenseModel.PrivateTrade2.PMetals < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.PMetals + ",P," + OutputModel.tradeCountry2 + "," );
+				else if( ExpenseModel.PrivateTrade2.Uranium < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade2.Uranium + ",U," + OutputModel.tradeCountry2 + "," );
+				else
+					fileStream.writeUTFBytes( ",,," );
+				if( ExpenseModel.PrivateTrade2.Food > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Food + ",F" );
+				else if( ExpenseModel.PrivateTrade2.Minerals > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Minerals + ",M" );
+				else if( ExpenseModel.PrivateTrade2.Iron > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Iron + ",I" );
+				else if( ExpenseModel.PrivateTrade2.Oil > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Oil + ",O" );
+				else if( ExpenseModel.PrivateTrade2.PMetals > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.PMetals + ",P" );
+				else if( ExpenseModel.PrivateTrade2.Uranium > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade2.Uranium + ",U" );
+				else
+					fileStream.writeUTFBytes( "," );
+			}
 			fileStream.writeUTFBytes( "\n" );
 			
 			fileStream.writeUTFBytes( "TRADE " );
-			if( ExpenseModel.PrivateTrade3.Food < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Food + ",F," + OutputModel.tradeCountry3 + "," );
-			else if( ExpenseModel.PrivateTrade3.Minerals < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Minerals + ",M," + OutputModel.tradeCountry3 + "," );
-			else if( ExpenseModel.PrivateTrade3.Iron < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Iron + ",I," + OutputModel.tradeCountry3 + "," );
-			else if( ExpenseModel.PrivateTrade3.Oil < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Oil + ",O," + OutputModel.tradeCountry3 + "," );
-			else if( ExpenseModel.PrivateTrade3.PMetals < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.PMetals + ",P," + OutputModel.tradeCountry3 + "," );
-			else if( ExpenseModel.PrivateTrade3.Uranium < 0 )
-				fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Uranium + ",U," + OutputModel.tradeCountry3 + "," );
-			else
-				fileStream.writeUTFBytes( ",,," );
-			if( ExpenseModel.PrivateTrade3.Food > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Food + ",F" );
-			else if( ExpenseModel.PrivateTrade3.Minerals > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Minerals + ",M" );
-			else if( ExpenseModel.PrivateTrade3.Iron > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Iron + ",I" );
-			else if( ExpenseModel.PrivateTrade3.Oil > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Oil + ",O" );
-			else if( ExpenseModel.PrivateTrade3.PMetals > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.PMetals + ",P" );
-			else if( ExpenseModel.PrivateTrade3.Uranium > 0 )
-				fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Uranium + ",U" );
-			else
-				fileStream.writeUTFBytes( "," );
+			if( OutputModel.tradeSameGive3 > 0 )
+				writeSameTrade( 3 );
+			else {
+				if( ExpenseModel.PrivateTrade3.Food < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Food + ",F," + OutputModel.tradeCountry3 + "," );
+				else if( ExpenseModel.PrivateTrade3.Minerals < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Minerals + ",M," + OutputModel.tradeCountry3 + "," );
+				else if( ExpenseModel.PrivateTrade3.Iron < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Iron + ",I," + OutputModel.tradeCountry3 + "," );
+				else if( ExpenseModel.PrivateTrade3.Oil < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Oil + ",O," + OutputModel.tradeCountry3 + "," );
+				else if( ExpenseModel.PrivateTrade3.PMetals < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.PMetals + ",P," + OutputModel.tradeCountry3 + "," );
+				else if( ExpenseModel.PrivateTrade3.Uranium < 0 )
+					fileStream.writeUTFBytes( -ExpenseModel.PrivateTrade3.Uranium + ",U," + OutputModel.tradeCountry3 + "," );
+				else
+					fileStream.writeUTFBytes( ",,," );
+				if( ExpenseModel.PrivateTrade3.Food > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Food + ",F" );
+				else if( ExpenseModel.PrivateTrade3.Minerals > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Minerals + ",M" );
+				else if( ExpenseModel.PrivateTrade3.Iron > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Iron + ",I" );
+				else if( ExpenseModel.PrivateTrade3.Oil > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Oil + ",O" );
+				else if( ExpenseModel.PrivateTrade3.PMetals > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.PMetals + ",P" );
+				else if( ExpenseModel.PrivateTrade3.Uranium > 0 )
+					fileStream.writeUTFBytes( ExpenseModel.PrivateTrade3.Uranium + ",U" );
+				else
+					fileStream.writeUTFBytes( "," );
+			}
 			fileStream.writeUTFBytes( "\n" );
+		}
+		
+		private static function writeSameTrade( line : int ) : void {
+			switch( line ) {
+				case 1:
+					switch( OutputModel.tradeSameResource1 ) {
+						case 0: fileStream.writeUTFBytes( OutputModel.tradeSameGive1 + ",F," + OutputModel.tradeCountry1 + "," + OutputModel.tradeSameFor1 + ",F" ); break;
+						case 1: fileStream.writeUTFBytes( OutputModel.tradeSameGive1 + ",M," + OutputModel.tradeCountry1 + "," + OutputModel.tradeSameFor1 + ",M" ); break;
+						case 2: fileStream.writeUTFBytes( OutputModel.tradeSameGive1 + ",I," + OutputModel.tradeCountry1 + "," + OutputModel.tradeSameFor1 + ",I" ); break;
+						case 3: fileStream.writeUTFBytes( OutputModel.tradeSameGive1 + ",O," + OutputModel.tradeCountry1 + "," + OutputModel.tradeSameFor1 + ",O" ); break;
+						case 4: fileStream.writeUTFBytes( OutputModel.tradeSameGive1 + ",P," + OutputModel.tradeCountry1 + "," + OutputModel.tradeSameFor1 + ",P" ); break;
+						case 5: fileStream.writeUTFBytes( OutputModel.tradeSameGive1 + ",U," + OutputModel.tradeCountry1 + "," + OutputModel.tradeSameFor1 + ",U" ); break;
+					}
+					break;
+				case 2:
+					switch( OutputModel.tradeSameResource2 ) {
+						case 0: fileStream.writeUTFBytes( OutputModel.tradeSameGive2 + ",F," + OutputModel.tradeCountry2 + "," + OutputModel.tradeSameFor2 + ",F" ); break;
+						case 1: fileStream.writeUTFBytes( OutputModel.tradeSameGive2 + ",M," + OutputModel.tradeCountry2 + "," + OutputModel.tradeSameFor2 + ",M" ); break;
+						case 2: fileStream.writeUTFBytes( OutputModel.tradeSameGive2 + ",I," + OutputModel.tradeCountry2 + "," + OutputModel.tradeSameFor2 + ",I" ); break;
+						case 3: fileStream.writeUTFBytes( OutputModel.tradeSameGive2 + ",O," + OutputModel.tradeCountry2 + "," + OutputModel.tradeSameFor2 + ",O" ); break;
+						case 4: fileStream.writeUTFBytes( OutputModel.tradeSameGive2 + ",P," + OutputModel.tradeCountry2 + "," + OutputModel.tradeSameFor2 + ",P" ); break;
+						case 5: fileStream.writeUTFBytes( OutputModel.tradeSameGive2 + ",U," + OutputModel.tradeCountry2 + "," + OutputModel.tradeSameFor2 + ",U" ); break;
+					}
+					break;
+				case 3:
+					switch( OutputModel.tradeSameResource3 ) {
+						case 0: fileStream.writeUTFBytes( OutputModel.tradeSameGive3 + ",F," + OutputModel.tradeCountry3 + "," + OutputModel.tradeSameFor3 + ",F" ); break;
+						case 1: fileStream.writeUTFBytes( OutputModel.tradeSameGive3 + ",M," + OutputModel.tradeCountry3 + "," + OutputModel.tradeSameFor3 + ",M" ); break;
+						case 2: fileStream.writeUTFBytes( OutputModel.tradeSameGive3 + ",I," + OutputModel.tradeCountry3 + "," + OutputModel.tradeSameFor3 + ",I" ); break;
+						case 3: fileStream.writeUTFBytes( OutputModel.tradeSameGive3 + ",O," + OutputModel.tradeCountry3 + "," + OutputModel.tradeSameFor3 + ",O" ); break;
+						case 4: fileStream.writeUTFBytes( OutputModel.tradeSameGive3 + ",P," + OutputModel.tradeCountry3 + "," + OutputModel.tradeSameFor3 + ",P" ); break;
+						case 5: fileStream.writeUTFBytes( OutputModel.tradeSameGive3 + ",U," + OutputModel.tradeCountry3 + "," + OutputModel.tradeSameFor3 + ",U" ); break;
+					}
+					break;
+			}
 		}
 		
 		private static function writeAid() : void {

@@ -39,6 +39,24 @@
 				
 				var newLine : ExpenseLineModel = new ExpenseLineModel();
 				if( resourceIndex1 == resourceIndex2 ) {
+					switch( lineNumber ) {
+						case 1:
+							OutputModel.tradeSameResource1 = resourceIndex1;
+							OutputModel.tradeSameGive1 = qty1;
+							OutputModel.tradeSameFor1 = qty2;
+							break;
+						case 2:
+							OutputModel.tradeSameResource2 = resourceIndex1;
+							OutputModel.tradeSameGive2 = qty1;
+							OutputModel.tradeSameFor2 = qty2;
+							break;
+						case 3:
+							OutputModel.tradeSameResource3 = resourceIndex1;
+							OutputModel.tradeSameGive3 = qty1;
+							OutputModel.tradeSameFor3 = qty2;
+							break;
+					}
+					
 					switch( resourceIndex1 ) {
 						case 0: newLine.Food = qty2 - qty1; break;
 						case 1: newLine.Minerals = qty2 - qty1; break;
@@ -48,6 +66,21 @@
 						case 5: newLine.Uranium = qty2 - qty1; break;
 					}
 				} else {
+					switch( lineNumber ) {
+						case 1:
+							OutputModel.tradeSameGive1 = 0;
+							OutputModel.tradeSameFor1 = 0;
+							break;
+						case 2:
+							OutputModel.tradeSameGive2 = 0;
+							OutputModel.tradeSameFor2 = 0;
+							break;
+						case 3:
+							OutputModel.tradeSameGive3 = 0;
+							OutputModel.tradeSameFor3 = 0;
+							break;
+					}
+					
 					switch( resourceIndex1 ) {
 						case 0: newLine.Food = -qty1; break;
 						case 1: newLine.Minerals = -qty1; break;
