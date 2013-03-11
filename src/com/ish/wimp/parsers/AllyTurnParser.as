@@ -37,10 +37,11 @@ package com.ish.wimp.parsers {
 		private const POSITION_HEADER_REGEX : RegExp = /Victory Point Total/;
 		private const POSITION_UNIT_HEX_TEST_REGEX : RegExp = /^Hex/;
 		private const POSITION_UNIT_HEX_SPLIT_REGEX : RegExp = /(Hex |\s+- )/;
-		private const POSITION_CONTROL_HEX_TEST_REGEX : RegExp = /(^Hexes controlled|^[^H]\s+\d)/;
+		private const POSITION_CONTROL_HEX_TEST_REGEX : RegExp = /^Hexes controlled/;
 		private const POSITION_CONTROL_HEX_SPLIT_REGEX : RegExp = /(, |,)/;
 		private const POSITION_CONTEST_HEX_TEST_REGEX : RegExp = /is contested/;
 		private const POSITION_CONTEST_HEX_SPLIT_REGEX : RegExp = /(Hex | is)/;
+		private const RECON_TEXT_REGEX : RegExp = /Reconnaissance Reports/;
 		
 		private var file : FileReference;
 		private var searchState : int = 0;	// 0 - intellegence, 1 - combat header, 2 - combat, 3 - tech recovery, 4 - economics,
@@ -68,7 +69,7 @@ package com.ish.wimp.parsers {
 			var lines : Array = data.split( LINE_SPLIT_REGEX );
 			
 			var line : String;
-			for( var i : int = 90; i < lines.length; ++i ) {
+			for( var i : int = 40; i < lines.length; ++i ) {
 				line = lines[i];
 				switch( searchState ) {
 					case 0: findIntelligence( line ); break;
@@ -190,7 +191,7 @@ package com.ish.wimp.parsers {
 		}
 		
 		private function findPositionHexes( line : String ) : void {
-			if( POSITION_UNIT_HEX_TEST_REGEX.test( line ) ) {
+			if( POSITION_UNIT_HEX_TEST_REGEX.test( line ) || RECON_TEXT_REGEX.test( line ) ) {
 				if( AllyTurnModel.ownedHexList == null )
 					AllyTurnModel.ownedHexList = posList;
 				else

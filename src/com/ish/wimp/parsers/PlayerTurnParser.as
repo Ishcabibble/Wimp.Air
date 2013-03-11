@@ -2,9 +2,7 @@ package com.ish.wimp.parsers {
 	import com.ish.wimp.model.ExpenseModel;
 	import com.ish.wimp.model.input.CombatReport;
 	import com.ish.wimp.model.input.PlayerTurnModel;
-	import com.ish.wimp.mxml.Map;
 	import com.ish.wimp.mxml.popup.LoadFilesPopup;
-	import com.ish.wimp.view.Map;
 	
 	import flash.events.Event;
 	import flash.net.FileReference;
@@ -40,10 +38,11 @@ package com.ish.wimp.parsers {
 		private const POSITION_HEADER_REGEX : RegExp = /Victory Point Total/;
 		private const POSITION_UNIT_HEX_TEST_REGEX : RegExp = /^Hex/;
 		private const POSITION_UNIT_HEX_SPLIT_REGEX : RegExp = /(Hex |\s+- )/;
-		private const POSITION_CONTROL_HEX_TEST_REGEX : RegExp = /(^Hexes controlled|^[^H]\s+\d)/;
+		private const POSITION_CONTROL_HEX_TEST_REGEX : RegExp = /^Hexes controlled/;
 		private const POSITION_CONTROL_HEX_SPLIT_REGEX : RegExp = /(, |,)/;
 		private const POSITION_CONTEST_HEX_TEST_REGEX : RegExp = /is contested/;
 		private const POSITION_CONTEST_HEX_SPLIT_REGEX : RegExp = /(Hex | is)/;
+		private const RECON_TEXT_REGEX : RegExp = /Reconnaissance Reports/;
 		
 		private var file : FileReference;
 		private var searchState : int = 0;	// 0 - intellegence, 1 - combat header, 2 - combat, 3 - tech recovery, 4 - economics,
@@ -72,7 +71,7 @@ package com.ish.wimp.parsers {
 			parseBasics( lines );
 			
 			var line : String;
-			for( var i : int = 90; i < lines.length; ++i ) {
+			for( var i : int = 40; i < lines.length; ++i ) {
 				line = lines[i];
 				switch( searchState ) {
 					case 0: findIntelligence( line ); break;
@@ -92,11 +91,11 @@ package com.ish.wimp.parsers {
 		private function parseBasics( lines : Array ) : void {
 			var line : String;
 			
-			line = lines[36];
+			line = lines[18];
 			tempArray = line.split( NAME_SPLIT_REGEX );
 			PlayerTurnModel.playerName = tempArray[1];
 			
-			line = lines[76];
+			line = lines[36];
 			tempArray = line.split( BASIC1_SPLIT_REGEX );
 			PlayerTurnModel.turnNumber = tempArray[2];
 			PlayerTurnModel.countryName = tempArray[4];
@@ -104,7 +103,7 @@ package com.ish.wimp.parsers {
 			PlayerTurnModel.gameNumber = tempArray[8];
 			
 			
-			line = lines[80];
+			line = lines[38];
 			tempArray = line.split( BASIC2_SPLIT_REGEX );
 			PlayerTurnModel.accountNumber = tempArray[1];
 		}
@@ -238,7 +237,7 @@ package com.ish.wimp.parsers {
 		}
 		
 		private function findPositionHexes( line : String ) : void {
-			if( POSITION_UNIT_HEX_TEST_REGEX.test( line ) ) {
+			if( POSITION_UNIT_HEX_TEST_REGEX.test( line ) || RECON_TEXT_REGEX.test( line ) ) {
 				PlayerTurnModel.ownedHexList = posList;
 				posList = new ArrayList( );
 				++searchState;
